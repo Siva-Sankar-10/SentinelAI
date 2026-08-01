@@ -1,0 +1,601 @@
+/* ===========================================================
+   SENTINEL AI v2.0
+   PREMIUM BLACK + GOLD THEME
+=========================================================== */
+
+/* Google Fonts */
+
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&family=Poppins:wght@300;400;500;600&family=JetBrains+Mono&display=swap');
+
+:root{
+
+--bg:#050505;
+--bg2:#111111;
+--card:#181818;
+
+--gold:#D4AF37;
+--gold2:#FFD700;
+
+--text:#ffffff;
+--text2:#bcbcbc;
+
+--border:#2f2f2f;
+
+}
+
+/* Reset */
+
+*{
+
+margin:0;
+padding:0;
+box-sizing:border-box;
+
+}
+
+html{
+
+scroll-behavior:smooth;
+
+}
+
+body{
+
+background:var(--bg);
+
+color:white;
+
+font-family:'Poppins',sans-serif;
+
+overflow-x:hidden;
+
+}
+
+/* Scrollbar */
+
+::-webkit-scrollbar{
+
+width:10px;
+
+}
+
+::-webkit-scrollbar-track{
+
+background:#111;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+background:linear-gradient(var(--gold),var(--gold2));
+
+border-radius:10px;
+
+}
+
+/* Particle Background */
+
+#particles-js{
+
+position:fixed;
+
+width:100%;
+
+height:100%;
+
+z-index:-10;
+
+top:0;
+
+left:0;
+
+}
+
+/* ===========================
+      NAVBAR
+=========================== */
+
+.navbar{
+
+background:rgba(0,0,0,.6);
+
+backdrop-filter:blur(15px);
+
+border-bottom:1px solid rgba(212,175,55,.3);
+
+padding:18px;
+
+transition:.4s;
+
+}
+
+.navbar-brand{
+
+font-size:30px;
+
+font-family:'Orbitron',sans-serif;
+
+font-weight:bold;
+
+color:var(--gold)!important;
+
+letter-spacing:2px;
+
+}
+
+.navbar-brand i{
+
+margin-right:10px;
+
+}
+
+.nav-link{
+
+color:white!important;
+
+margin-left:25px;
+
+font-size:17px;
+
+transition:.3s;
+
+position:relative;
+
+}
+
+.nav-link:hover{
+
+color:var(--gold)!important;
+
+}
+
+.nav-link::after{
+
+content:"";
+
+position:absolute;
+
+bottom:-6px;
+
+left:0;
+
+width:0%;
+
+height:2px;
+
+background:var(--gold2);
+
+transition:.4s;
+
+}
+
+.nav-link:hover::after{
+
+width:100%;
+
+}
+
+/* Clock */
+
+.clock-box{
+
+text-align:right;
+
+font-size:13px;
+
+color:var(--gold);
+
+font-family:'Orbitron';
+
+}
+
+/* ===========================
+      HERO
+=========================== */
+
+.hero{
+
+min-height:100vh;
+
+display:flex;
+
+align-items:center;
+
+}
+
+.hero-title{
+
+font-size:75px;
+
+font-family:'Orbitron';
+
+font-weight:700;
+
+color:var(--gold2);
+
+margin-bottom:20px;
+
+text-shadow:0 0 20px rgba(255,215,0,.4);
+
+}
+
+#typing{
+
+height:55px;
+
+font-size:28px;
+
+color:white;
+
+margin-bottom:20px;
+
+}
+
+.hero-text{
+
+font-size:18px;
+
+line-height:32px;
+
+color:var(--text2);
+
+max-width:650px;
+
+}
+
+/* ===========================
+      BUTTONS
+=========================== */
+
+.btn-gold{
+
+background:linear-gradient(45deg,#b8860b,#FFD700);
+
+padding:15px 35px;
+
+border-radius:50px;
+
+color:black;
+
+font-weight:bold;
+
+font-size:18px;
+
+transition:.4s;
+
+text-decoration:none;
+
+display:inline-block;
+
+}
+
+.btn-gold:hover{
+
+transform:translateY(-5px);
+
+box-shadow:0 0 30px rgba(255,215,0,.5);
+
+color:black;
+
+}
+
+.btn-outline-light{
+
+border-radius:50px;
+
+padding:15px 35px;
+
+}
+
+/* ===========================
+      GLASS BOX
+=========================== */
+
+.glass-box{
+
+background:rgba(255,255,255,.03);
+
+border:1px solid rgba(255,215,0,.12);
+
+backdrop-filter:blur(20px);
+
+border-radius:25px;
+
+padding:40px;
+
+margin-top:60px;
+
+box-shadow:0 0 40px rgba(255,215,0,.05);
+
+}
+
+/* ===========================
+      STATUS CARDS
+=========================== */
+
+.status-card{
+
+background:#111;
+
+border:1px solid #2d2d2d;
+
+padding:30px;
+
+border-radius:20px;
+
+text-align:center;
+
+transition:.4s;
+
+height:180px;
+
+}
+
+.status-card:hover{
+
+transform:translateY(-10px);
+
+border-color:var(--gold);
+
+box-shadow:0 0 35px rgba(255,215,0,.2);
+
+}
+
+.status-card h2{
+
+color:var(--gold2);
+
+font-size:40px;
+
+font-family:'Orbitron';
+
+}
+
+.status-card p{
+
+color:#b8b8b8;
+
+margin-top:15px;
+
+}
+
+/* ===========================
+      FORMAT CARD
+=========================== */
+
+.format-card{
+
+background:#121212;
+
+padding:35px;
+
+text-align:center;
+
+border-radius:18px;
+
+font-size:22px;
+
+font-weight:bold;
+
+border:1px solid #333;
+
+transition:.4s;
+
+}
+
+.format-card:hover{
+
+transform:scale(1.05);
+
+border-color:var(--gold2);
+
+box-shadow:0 0 25px rgba(255,215,0,.2);
+
+}
+
+.disabled{
+
+opacity:.45;
+
+}
+
+/* ===========================
+      TERMINAL
+=========================== */
+
+.terminal{
+
+background:black;
+
+padding:35px;
+
+border-radius:20px;
+
+font-family:'JetBrains Mono';
+
+color:#00ff7f;
+
+border:1px solid rgba(255,215,0,.25);
+
+margin-top:50px;
+
+box-shadow:0 0 20px rgba(255,215,0,.1);
+
+}
+
+.terminal p{
+
+margin-bottom:12px;
+
+}
+
+.blink{
+
+animation:blink .8s infinite;
+
+}
+
+@keyframes blink{
+
+50%{
+
+opacity:0;
+
+}
+
+}
+
+/* ===========================
+      FOOTER
+=========================== */
+
+footer{
+
+margin-top:100px;
+
+padding:40px;
+
+background:#0a0a0a;
+
+text-align:center;
+
+border-top:1px solid rgba(255,215,0,.25);
+
+}
+
+footer h4{
+
+color:var(--gold);
+
+font-family:'Orbitron';
+
+}
+
+footer p{
+
+color:#999;
+
+}
+
+footer small{
+
+color:#666;
+
+}
+/* Mouse Glow */
+
+.mouse-glow{
+
+position:fixed;
+
+width:250px;
+
+height:250px;
+
+background:radial-gradient(circle,
+rgba(255,215,0,.12),
+transparent 70%);
+
+pointer-events:none;
+
+transform:translate(-50%,-50%);
+
+z-index:-1;
+
+transition:.08s;
+
+}
+
+/* Floating Cards */
+
+@keyframes floatCard{
+
+0%{
+
+transform:translateY(0px);
+
+}
+
+50%{
+
+transform:translateY(-8px);
+
+}
+
+100%{
+
+transform:translateY(0px);
+
+}
+
+}
+.ai-core{
+
+width:500px;
+
+height:500px;
+
+margin:auto;
+
+position:relative;
+
+}
+
+.ai-core canvas{
+
+width:100%!important;
+
+height:100%!important;
+
+filter:drop-shadow(0 0 40px gold);
+
+}
+.status-card{
+
+background:#141414;
+
+padding:30px;
+
+border-radius:15px;
+
+text-align:center;
+
+border:1px solid gold;
+
+margin-bottom:20px;
+
+transition:.3s;
+
+}
+
+.status-card:hover{
+
+transform:translateY(-10px);
+
+box-shadow:0 0 20px gold;
+
+}
+
+.status-card h2{
+
+font-size:50px;
+
+color:gold;
+
+}
+
+.glass-box{
+
+background:rgba(255,255,255,.05);
+
+backdrop-filter:blur(15px);
+
+padding:30px;
+
+border-radius:20px;
+
+border:1px solid rgba(255,215,0,.3);
+
+margin-bottom:30px;
+
+}

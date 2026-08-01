@@ -1,0 +1,231 @@
+{% extends "base.html" %}
+
+{% block title %}SentinelAI{% endblock %}
+
+{% block content %}
+
+<!-- HERO SECTION -->
+
+<section class="hero">
+
+    <div class="container">
+
+        <div class="row align-items-center">
+
+            <!-- LEFT -->
+
+            <div class="col-lg-6" data-aos="fade-right">
+
+                <span class="badge bg-warning text-dark px-3 py-2 mb-3">
+                    🟢 AI SYSTEM ONLINE
+                </span>
+
+                <h1 class="hero-title">
+
+                    SentinelAI
+
+                </h1>
+
+                <h2 id="typing"></h2>
+
+                <p class="hero-text">
+
+                    An intelligent AI-powered defense platform that analyzes
+                    uploaded datasets using Machine Learning to identify
+                    suspicious activities and generate insightful reports.
+
+                </p>
+
+                <div class="mt-4">
+
+                    <a href="/upload" class="btn btn-gold">
+
+                        <i class="fa-solid fa-upload"></i>
+
+                        Start Detection
+
+                    </a>
+
+                    <a href="#" class="btn btn-outline-light ms-3">
+
+                        Learn More
+
+                    </a>
+
+                </div>
+
+            </div>
+
+            <!-- RIGHT -->
+
+            <div class="col-lg-6 text-center" data-aos="zoom-in">
+
+                <div class="ai-core">
+
+                    <div class="ring ring1"></div>
+
+                    <div class="ring ring2"></div>
+
+                    <div class="ring ring3"></div>
+
+                    <div class="core"></div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- STATUS SECTION -->
+
+<section class="container mt-5">
+
+<div class="row g-4">
+
+<div class="col-md-3">
+
+<div class="status-card">
+
+<h2 id="accuracy">99.32%</h2>
+
+<p>Model Accuracy</p>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="status-card">
+
+<h2>125,973</h2>
+
+<p>Training Records</p>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="status-card">
+
+<h2>41</h2>
+
+<p>Features</p>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="status-card">
+
+<h2>Online</h2>
+
+<p>AI Engine</p>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- FILE SUPPORT -->
+
+<section class="container mt-5">
+
+<div class="glass-box">
+
+<h3>
+
+<i class="fa-solid fa-file-circle-check"></i>
+
+Supported File Formats
+
+</h3>
+
+<div class="row mt-4">
+
+<div class="col-md-3">
+
+<div class="format-card">
+
+CSV
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="format-card">
+
+TXT
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="format-card disabled">
+
+PCAP
+
+<br>
+
+<small>Coming Soon</small>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="format-card disabled">
+
+PCAPNG
+
+<br>
+
+<small>Coming Soon</small>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- TERMINAL -->
+
+<section class="container mt-5">
+
+<div class="terminal">
+
+<p>> Booting SentinelAI...</p>
+
+<p>> Loading Random Forest Model...</p>
+
+<p>> Accuracy : 99.32%</p>
+
+<p>> Waiting For Dataset...</p>
+
+<p class="blink">█</p>
+
+</div>
+
+</section>
+
+{% endblock %}
