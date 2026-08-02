@@ -1,64 +1,551 @@
 {% extends "base.html" %}
 
-{% block title %}Upload Dataset{% endblock %}
+{% block title %}
+
+Upload Dataset
+
+{% endblock %}
 
 {% block content %}
 
-<div class="container" style="margin-top:120px; margin-bottom:80px;">
+<section class="container pt-5 mt-5">
 
-    <div class="glass-box">
+<div class="text-center mb-5" data-aos="fade-down">
 
-        <h1 class="text-center text-warning mb-4">
-            <i class="fa-solid fa-cloud-arrow-up"></i>
-            Upload Dataset
-        </h1>
+<span class="badge bg-warning text-dark px-3 py-2">
 
-        <p class="text-center text-light mb-4">
-            Upload your dataset for AI-powered analysis.
+🛡 Secure Upload Portal
+
+</span>
+
+<h1 class="hero-title mt-4">
+
+Upload Network Dataset
+
+</h1>
+
+<p class="hero-text mx-auto" style="max-width:700px;">
+
+Upload your NSL-KDD dataset for AI-powered intrusion detection.
+SentinelAI will analyze the uploaded network traffic using
+Machine Learning and generate a detailed security report.
+
+</p>
+
+</div>
+
+<div class="glass-box" data-aos="zoom-in">
+
+<h2 class="text-center mb-4">
+
+<i class="fa-solid fa-cloud-arrow-up"></i>
+
+Upload Dataset
+
+</h2>
+<form action="/predict"
+
+      method="POST"
+
+      enctype="multipart/form-data"
+
+      id="uploadForm">
+
+    <!-- Upload Area -->
+
+    <div class="upload-box mb-4"
+
+         id="dropArea">
+
+        <i class="fa-solid fa-file-arrow-up fa-4x mb-4"></i>
+
+        <h3>
+
+            Drag & Drop Your Dataset
+
+        </h3>
+
+        <p class="text-light">
+
+            or click below to browse files
+
         </p>
 
-        <form action="/predict" method="POST" enctype="multipart/form-data">
+        <input
 
-            <div class="mb-4">
+            type="file"
 
-                <input
-                    class="form-control form-control-lg"
-                    type="file"
-                    name="file"
-                    accept=".csv,.txt"
-                    required>
+            name="file"
+
+            id="fileInput"
+
+            class="form-control mt-4"
+
+            accept=".csv,.txt"
+
+            required>
+
+    </div>
+
+
+    <!-- File Information -->
+
+    <div class="glass-box mt-4">
+
+        <h4>
+
+            <i class="fa-solid fa-file-circle-check"></i>
+
+            Selected File
+
+        </h4>
+
+        <table class="table table-dark table-bordered mt-3">
+
+            <tr>
+
+                <th>File Name</th>
+
+                <td id="fileName">
+
+                    No file selected
+
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <th>File Size</th>
+
+                <td id="fileSize">
+
+                    --
+
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <th>Supported Types</th>
+
+                <td>
+
+                    CSV (.csv), TXT (.txt)
+
+                </td>
+
+            </tr>
+
+        </table>
+
+    </div>
+
+
+    <!-- Upload Button -->
+
+    <div class="text-center mt-5">
+
+        <button
+
+            class="btn btn-gold btn-lg"
+
+            type="submit">
+
+            <i class="fa-solid fa-magnifying-glass-chart"></i>
+
+            Analyze Dataset
+
+        </button>
+
+    </div>
+
+</form>
+<script>
+
+// ==========================================
+// FILE PREVIEW
+// ==========================================
+
+const fileInput = document.getElementById("fileInput");
+
+const fileName = document.getElementById("fileName");
+
+const fileSize = document.getElementById("fileSize");
+
+fileInput.addEventListener("change", function () {
+
+    if(this.files.length > 0){
+
+        const file = this.files[0];
+
+        fileName.innerHTML = file.name;
+
+        fileSize.innerHTML =
+            (file.size / (1024 * 1024)).toFixed(2) + " MB";
+
+        // Allowed Extensions
+
+        const allowed = ["csv","txt"];
+
+        const extension =
+            file.name.split(".").pop().toLowerCase();
+
+        if(!allowed.includes(extension)){
+
+            alert("❌ Only CSV and TXT files are allowed.");
+
+            this.value = "";
+
+            fileName.innerHTML = "No file selected";
+
+            fileSize.innerHTML = "--";
+
+        }
+
+    }
+
+});
+
+
+// ==========================================
+// DRAG & DROP EFFECT
+// ==========================================
+
+const dropArea = document.getElementById("dropArea");
+
+dropArea.addEventListener("dragover", function(e){
+
+    e.preventDefault();
+
+    dropArea.style.borderColor = "gold";
+
+    dropArea.style.background =
+        "rgba(255,215,0,.08)";
+
+});
+
+dropArea.addEventListener("dragleave", function(){
+
+    dropArea.style.borderColor =
+        "rgba(255,215,0,.35)";
+
+    dropArea.style.background = "";
+
+});
+
+dropArea.addEventListener("drop", function(e){
+
+    e.preventDefault();
+
+    fileInput.files = e.dataTransfer.files;
+
+    fileInput.dispatchEvent(new Event("change"));
+
+});
+
+</script>
+
+<!-- ==========================================
+     LOADING OVERLAY
+========================================== -->
+
+<div id="loadingScreen" style="display:none;">
+
+    <div class="loading-box">
+
+        <div class="loader"></div>
+
+        <h2 class="mt-4 text-warning">
+
+            SentinelAI is Analyzing...
+
+        </h2>
+
+        <p class="text-light">
+
+            Please wait while the AI processes your dataset.
+
+        </p>
+
+    </div>
+
+</div>
+
+
+<script>
+
+// ==========================================
+// FORM SUBMIT
+// ==========================================
+
+const uploadForm = document.getElementById("uploadForm");
+
+uploadForm.addEventListener("submit", function(e){
+
+    // Make sure a file is selected
+
+    if(fileInput.files.length == 0){
+
+        alert("Please select a dataset.");
+
+        e.preventDefault();
+
+        return;
+
+    }
+
+    // Disable button
+
+    const submitBtn = uploadForm.querySelector("button");
+
+    submitBtn.disabled = true;
+
+    submitBtn.innerHTML =
+
+    '<i class="fa-solid fa-spinner fa-spin"></i> Analyzing Dataset...';
+
+    // Show Loading Screen
+
+    document.getElementById("loadingScreen").style.display="flex";
+
+});
+
+</script>
+
+
+<style>
+
+/* ==============================
+     Loading Screen
+============================== */
+
+#loadingScreen{
+
+position:fixed;
+
+top:0;
+
+left:0;
+
+width:100%;
+
+height:100%;
+
+background:rgba(0,0,0,.92);
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+z-index:99999;
+
+}
+
+
+/* ==============================
+      Loading Box
+============================== */
+
+.loading-box{
+
+text-align:center;
+
+}
+
+
+/* ==============================
+      Loader
+============================== */
+
+.loader{
+
+width:90px;
+
+height:90px;
+
+border:8px solid rgba(255,255,255,.15);
+
+border-top:8px solid gold;
+
+border-radius:50%;
+
+animation:spin 1s linear infinite;
+
+margin:auto;
+
+}
+
+@keyframes spin{
+
+0%{
+
+transform:rotate(0deg);
+
+}
+
+100%{
+
+transform:rotate(360deg);
+
+}
+
+}
+
+</style>
+<!-- ==========================================
+     DATASET INFORMATION
+========================================== -->
+
+<div class="container mt-5">
+
+    <div class="glass-box" data-aos="fade-up">
+
+        <h2 class="text-warning text-center mb-4">
+
+            <i class="fa-solid fa-circle-info"></i>
+
+            Upload Guidelines
+
+        </h2>
+
+        <div class="row">
+
+            <!-- Left -->
+
+            <div class="col-lg-6">
+
+                <h4 class="text-warning">
+
+                    <i class="fa-solid fa-check-circle"></i>
+
+                    Supported Files
+
+                </h4>
+
+                <ul class="text-light">
+
+                    <li>CSV Dataset (.csv)</li>
+
+                    <li>TXT Dataset (.txt)</li>
+
+                    <li>NSL-KDD Format</li>
+
+                    <li>Maximum File Size: 100 MB</li>
+
+                </ul>
 
             </div>
 
-            <div class="text-center">
+            <!-- Right -->
 
-                <button class="btn btn-gold">
+            <div class="col-lg-6">
 
-                    <i class="fa-solid fa-brain"></i>
+                <h4 class="text-warning">
 
-                    Analyze Dataset
+                    <i class="fa-solid fa-lightbulb"></i>
 
-                </button>
+                    AI Analysis
+
+                </h4>
+
+                <ul class="text-light">
+
+                    <li>Detects malicious network traffic</li>
+
+                    <li>Classifies Attack & Normal records</li>
+
+                    <li>Generates security statistics</li>
+
+                    <li>Creates downloadable PDF report</li>
+
+                </ul>
 
             </div>
 
-        </form>
+        </div>
 
-        <hr class="mt-5">
+    </div>
 
-        <h4 class="text-warning">Supported File Types</h4>
+</div>
 
-        <ul class="text-light">
 
-            <li>✅ CSV (.csv)</li>
+<!-- ==========================================
+     HOW IT WORKS
+========================================== -->
 
-            <li>✅ TXT (.txt)</li>
+<div class="container mt-5 mb-5">
 
-            <li>🟡 PCAP (Coming Soon)</li>
+    <div class="glass-box" data-aos="fade-up">
 
-            <li>🟡 PCAPNG (Coming Soon)</li>
+        <h2 class="text-warning text-center mb-5">
 
-        </ul>
+            How SentinelAI Works
+
+        </h2>
+
+        <div class="row text-center">
+
+            <div class="col-md-3 mb-4">
+
+                <i class="fa-solid fa-upload fa-3x text-warning mb-3"></i>
+
+                <h5>Upload</h5>
+
+                <p class="text-light">
+
+                    Upload your NSL-KDD dataset.
+
+                </p>
+
+            </div>
+
+            <div class="col-md-3 mb-4">
+
+                <i class="fa-solid fa-brain fa-3x text-warning mb-3"></i>
+
+                <h5>AI Analysis</h5>
+
+                <p class="text-light">
+
+                    Random Forest analyzes every record.
+
+                </p>
+
+            </div>
+
+            <div class="col-md-3 mb-4">
+
+                <i class="fa-solid fa-shield-virus fa-3x text-warning mb-3"></i>
+
+                <h5>Detection</h5>
+
+                <p class="text-light">
+
+                    Detects Attack and Normal traffic.
+
+                </p>
+
+            </div>
+
+            <div class="col-md-3 mb-4">
+
+                <i class="fa-solid fa-file-pdf fa-3x text-warning mb-3"></i>
+
+                <h5>Report</h5>
+
+                <p class="text-light">
+
+                    View dashboard and download PDF report.
+
+                </p>
+
+            </div>
+
+        </div>
 
     </div>
 

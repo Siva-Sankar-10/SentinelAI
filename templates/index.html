@@ -4,7 +4,9 @@
 
 {% block content %}
 
+<!-- ========================================================= -->
 <!-- HERO SECTION -->
+<!-- ========================================================= -->
 
 <section class="hero">
 
@@ -12,7 +14,7 @@
 
         <div class="row align-items-center">
 
-            <!-- LEFT -->
+            <!-- LEFT SIDE -->
 
             <div class="col-lg-6" data-aos="fade-right">
 
@@ -30,15 +32,21 @@
 
                 <p class="hero-text">
 
-                    An intelligent AI-powered defense platform that analyzes
-                    uploaded datasets using Machine Learning to identify
-                    suspicious activities and generate insightful reports.
+                    SentinelAI is an intelligent AI-powered Intrusion Detection
+                    System that analyzes uploaded network datasets using
+                    Machine Learning.
+
+                    <br><br>
+
+                    It automatically detects malicious traffic, classifies
+                    attacks, generates professional reports and stores
+                    previous analyses for future comparison.
 
                 </p>
 
                 <div class="mt-4">
 
-                    <a href="/upload" class="btn btn-gold">
+                    <a href="/upload" class="btn btn-gold me-3">
 
                         <i class="fa-solid fa-upload"></i>
 
@@ -46,7 +54,7 @@
 
                     </a>
 
-                    <a href="#" class="btn btn-outline-light ms-3">
+                    <a href="/about" class="btn btn-outline-light">
 
                         Learn More
 
@@ -56,7 +64,8 @@
 
             </div>
 
-            <!-- RIGHT -->
+
+            <!-- RIGHT SIDE -->
 
             <div class="col-lg-6 text-center" data-aos="zoom-in">
 
@@ -79,153 +88,603 @@
     </div>
 
 </section>
-
-<!-- STATUS SECTION -->
-
-<section class="container mt-5">
-
-<div class="row g-4">
-
-<div class="col-md-3">
-
-<div class="status-card">
-
-<h2 id="accuracy">99.32%</h2>
-
-<p>Model Accuracy</p>
-
-</div>
-
-</div>
-
-<div class="col-md-3">
-
-<div class="status-card">
-
-<h2>125,973</h2>
-
-<p>Training Records</p>
-
-</div>
-
-</div>
-
-<div class="col-md-3">
-
-<div class="status-card">
-
-<h2>41</h2>
-
-<p>Features</p>
-
-</div>
-
-</div>
-
-<div class="col-md-3">
-
-<div class="status-card">
-
-<h2>Online</h2>
-
-<p>AI Engine</p>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- FILE SUPPORT -->
+<!-- ========================================================= -->
+<!-- LIVE STATISTICS -->
+<!-- ========================================================= -->
 
 <section class="container mt-5">
 
-<div class="glass-box">
+    <div class="text-center mb-5">
 
-<h3>
+        <h2 class="section-title">
 
-<i class="fa-solid fa-file-circle-check"></i>
+            AI Detection Overview
 
-Supported File Formats
+        </h2>
 
-</h3>
+        <p class="section-subtitle">
 
-<div class="row mt-4">
+            Powered by Random Forest Machine Learning Model
 
-<div class="col-md-3">
+        </p>
 
-<div class="format-card">
+    </div>
 
-CSV
+    <div class="row g-4">
 
-</div>
+        <!-- Accuracy -->
 
-</div>
+        <div class="col-lg-3 col-md-6">
 
-<div class="col-md-3">
+            <div class="status-card">
 
-<div class="format-card">
+                <i class="fa-solid fa-bullseye fa-3x text-warning mb-3"></i>
 
-TXT
+                <h2 class="counter"
+                    data-target="99.32">
 
-</div>
+                    99.32%
 
-</div>
+                </h2>
 
-<div class="col-md-3">
+                <p>
 
-<div class="format-card disabled">
+                    Model Accuracy
 
-PCAP
+                </p>
 
-<br>
+            </div>
 
-<small>Coming Soon</small>
+        </div>
 
-</div>
+        <!-- Dataset -->
 
-</div>
+        <div class="col-lg-3 col-md-6">
 
-<div class="col-md-3">
+            <div class="status-card">
 
-<div class="format-card disabled">
+                <i class="fa-solid fa-database fa-3x text-warning mb-3"></i>
 
-PCAPNG
+                <h2>
 
-<br>
+                    125,973
 
-<small>Coming Soon</small>
+                </h2>
 
-</div>
+                <p>
 
-</div>
+                    Training Records
 
-</div>
+                </p>
 
-</div>
+            </div>
+
+        </div>
+
+        <!-- Features -->
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="status-card">
+
+                <i class="fa-solid fa-microchip fa-3x text-warning mb-3"></i>
+
+                <h2>
+
+                    41
+
+                </h2>
+
+                <p>
+
+                    Input Features
+
+                </p>
+
+            </div>
+
+        </div>
+
+        <!-- Status -->
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="status-card">
+
+                <i class="fa-solid fa-shield-halved fa-3x text-success mb-3"></i>
+
+                <h2 class="text-success">
+
+                    ONLINE
+
+                </h2>
+
+                <p>
+
+                    Detection Engine
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
 
 </section>
 
-<!-- TERMINAL -->
+
+<!-- ========================================================= -->
+<!-- QUICK FEATURES -->
+<!-- ========================================================= -->
 
 <section class="container mt-5">
 
-<div class="terminal">
+    <div class="glass-box">
 
-<p>> Booting SentinelAI...</p>
+        <div class="row text-center">
 
-<p>> Loading Random Forest Model...</p>
+            <div class="col-md-3">
 
-<p>> Accuracy : 99.32%</p>
+                <i class="fa-solid fa-brain fa-2x text-warning mb-3"></i>
 
-<p>> Waiting For Dataset...</p>
+                <h5>
 
-<p class="blink">█</p>
+                    Machine Learning
 
-</div>
+                </h5>
+
+            </div>
+
+            <div class="col-md-3">
+
+                <i class="fa-solid fa-shield-virus fa-2x text-warning mb-3"></i>
+
+                <h5>
+
+                    Intrusion Detection
+
+                </h5>
+
+            </div>
+
+            <div class="col-md-3">
+
+                <i class="fa-solid fa-chart-line fa-2x text-warning mb-3"></i>
+
+                <h5>
+
+                    Threat Analytics
+
+                </h5>
+
+            </div>
+
+            <div class="col-md-3">
+
+                <i class="fa-solid fa-file-pdf fa-2x text-warning mb-3"></i>
+
+                <h5>
+
+                    PDF Reports
+
+                </h5>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+<!-- ========================================================= -->
+<!-- SUPPORTED FILE FORMATS -->
+<!-- ========================================================= -->
+
+<section class="container mt-5">
+
+    <div class="glass-box">
+
+        <div class="text-center mb-5">
+
+            <h2 class="section-title">
+
+                Supported Upload Formats
+
+            </h2>
+
+            <p class="section-subtitle">
+
+                SentinelAI currently supports NSL-KDD datasets and is
+                continuously expanding to support real-world network traffic.
+
+            </p>
+
+        </div>
+
+        <div class="row g-4">
+
+            <!-- CSV -->
+
+            <div class="col-lg-3 col-md-6">
+
+                <div class="format-card">
+
+                    <i class="fa-solid fa-file-csv fa-4x text-warning mb-3"></i>
+
+                    <h4>CSV</h4>
+
+                    <p>
+
+                        Fully Supported
+
+                    </p>
+
+                    <span class="badge bg-success">
+
+                        READY
+
+                    </span>
+
+                </div>
+
+            </div>
+
+            <!-- TXT -->
+
+            <div class="col-lg-3 col-md-6">
+
+                <div class="format-card">
+
+                    <i class="fa-solid fa-file-lines fa-4x text-warning mb-3"></i>
+
+                    <h4>TXT</h4>
+
+                    <p>
+
+                        Fully Supported
+
+                    </p>
+
+                    <span class="badge bg-success">
+
+                        READY
+
+                    </span>
+
+                </div>
+
+            </div>
+
+            <!-- PCAP -->
+
+            <div class="col-lg-3 col-md-6">
+
+                <div class="format-card disabled">
+
+                    <i class="fa-solid fa-network-wired fa-4x text-secondary mb-3"></i>
+
+                    <h4>PCAP</h4>
+
+                    <p>
+
+                        Wireshark Capture
+
+                    </p>
+
+                    <span class="badge bg-secondary">
+
+                        COMING SOON
+
+                    </span>
+
+                </div>
+
+            </div>
+
+            <!-- PCAPNG -->
+
+            <div class="col-lg-3 col-md-6">
+
+                <div class="format-card disabled">
+
+                    <i class="fa-solid fa-server fa-4x text-secondary mb-3"></i>
+
+                    <h4>PCAPNG</h4>
+
+                    <p>
+
+                        Next Generation Capture
+
+                    </p>
+
+                    <span class="badge bg-secondary">
+
+                        COMING SOON
+
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
 
 </section>
 
-{% endblock %}
+
+<!-- ========================================================= -->
+<!-- WHY CHOOSE SENTINEL AI -->
+<!-- ========================================================= -->
+
+<section class="container mt-5">
+
+    <div class="glass-box">
+
+        <div class="text-center mb-5">
+
+            <h2 class="section-title">
+
+                Why Choose SentinelAI?
+
+            </h2>
+
+        </div>
+
+        <div class="row g-4">
+
+            <div class="col-lg-4">
+
+                <div class="status-card">
+
+                    <i class="fa-solid fa-brain fa-3x text-warning mb-3"></i>
+
+                    <h4>
+
+                        AI Powered
+
+                    </h4>
+
+                    <p>
+
+                        Uses a Random Forest Machine Learning model to detect
+                        malicious network traffic with high accuracy.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-4">
+
+                <div class="status-card">
+
+                    <i class="fa-solid fa-chart-pie fa-3x text-warning mb-3"></i>
+
+                    <h4>
+
+                        Instant Analytics
+
+                    </h4>
+
+                    <p>
+
+                        Generates attack statistics, charts and analysis
+                        reports immediately after prediction.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-4">
+
+                <div class="status-card">
+
+                    <i class="fa-solid fa-file-pdf fa-3x text-warning mb-3"></i>
+
+                    <h4>
+
+                        Professional Reports
+
+                    </h4>
+
+                    <p>
+
+                        Export PDF reports and maintain prediction history
+                        for future investigations.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+<!-- ========================================================= -->
+<!-- LIVE SECURITY TERMINAL -->
+<!-- ========================================================= -->
+
+<section class="container mt-5">
+
+    <div class="glass-box">
+
+        <div class="row">
+
+            <!-- LEFT -->
+
+            <div class="col-lg-7">
+
+                <h2 class="text-warning mb-4">
+
+                    <i class="fa-solid fa-terminal"></i>
+
+                    Live Security Console
+
+                </h2>
+
+                <div class="terminal" id="terminal">
+
+                    <p>> Booting SentinelAI v2.0...</p>
+
+                    <p>> Initializing AI Engine...</p>
+
+                    <p>> Loading Random Forest Model...</p>
+
+                    <p>> Connecting Database...</p>
+
+                    <p>> Loading Detection Modules...</p>
+
+                    <p>> Monitoring Network Activity...</p>
+
+                    <p>> Waiting for Dataset Upload...</p>
+
+                    <p class="blink">█</p>
+
+                </div>
+
+            </div>
+
+            <!-- RIGHT -->
+
+            <div class="col-lg-5">
+
+                <h2 class="text-warning mb-4">
+
+                    <i class="fa-solid fa-shield-halved"></i>
+
+                    System Status
+
+                </h2>
+
+                <table class="table table-dark table-bordered">
+
+                    <tr>
+                        <th>AI Engine</th>
+                        <td class="text-success">ONLINE</td>
+                    </tr>
+
+                    <tr>
+                        <th>Detection Model</th>
+                        <td>Random Forest</td>
+                    </tr>
+
+                    <tr>
+                        <th>Dataset</th>
+                        <td>NSL-KDD</td>
+                    </tr>
+
+                    <tr>
+                        <th>Accuracy</th>
+                        <td>99.32%</td>
+                    </tr>
+
+                    <tr>
+                        <th>Status</th>
+                        <td class="text-success">
+                            Secure
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>Threat Level</th>
+                        <td class="text-warning">
+                            Monitoring
+                        </td>
+                    </tr>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ========================================================= -->
+<!-- PROJECT FEATURES -->
+<!-- ========================================================= -->
+
+<section class="container mt-5">
+
+    <div class="glass-box">
+
+        <h2 class="text-center text-warning mb-5">
+
+            SentinelAI Features
+
+        </h2>
+
+        <div class="row text-center">
+
+            <div class="col-md-3">
+
+                <i class="fa-solid fa-upload fa-3x text-warning mb-3"></i>
+
+                <h5>Dataset Upload</h5>
+
+                <p>
+
+                    Upload NSL-KDD datasets instantly.
+
+                </p>
+
+            </div>
+
+            <div class="col-md-3">
+
+                <i class="fa-solid fa-brain fa-3x text-warning mb-3"></i>
+
+                <h5>AI Detection</h5>
+
+                <p>
+
+                    Detect attacks using Machine Learning.
+
+                </p>
+
+            </div>
+
+            <div class="col-md-3">
+
+                <i class="fa-solid fa-chart-column fa-3x text-warning mb-3"></i>
+
+                <h5>Visual Analytics</h5>
+
+                <p>
+
+                    Interactive charts and statistics.
+
+                </p>
+
+            </div>
+
+            <div class="col-md-3">
+
+                <i class="fa-solid fa-file-pdf fa-3x text-warning mb-3"></i>
+
+                <h5>PDF Reports</h5>
+
+                <p>
+
+                    Download professional analysis reports.
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>

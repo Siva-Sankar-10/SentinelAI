@@ -7,7 +7,7 @@ from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
 from reportlab.lib import colors
 import database
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, send_file, redirect
 
 app = Flask(__name__)
 app.config["REPORT_DATA"] = {}
@@ -97,12 +97,25 @@ def dashboard():
 @app.route("/history")
 def history():
 
+    search = request.args.get("search", "")
+
     conn = sqlite3.connect("sentinel.db")
     cursor = conn.cursor()
 
-    cursor.execute(
-        "SELECT * FROM history ORDER BY id DESC"
-    )
+    if search:
+
+        cursor.execute("""
+        SELECT * FROM history
+        WHERE filename LIKE ?
+        ORDER BY id DESC
+        """, ('%' + search + '%',))
+
+    else:
+
+        cursor.execute("""
+        SELECT * FROM history
+        ORDER BY id DESC
+        """)
 
     history = cursor.fetchall()
 
@@ -110,9 +123,21 @@ def history():
 
     return render_template(
         "history.html",
-        history=history
+        history=history,
+        search=search
     )
+@app.route("/clear_history")
+def clear_history():
 
+    conn = sqlite3.connect("sentinel.db")
+    cursor = conn.cursor()
+
+    cursor.execute("DELETE FROM history")
+
+    conn.commit()
+    conn.close()
+
+    return redirect("/history")
 
 # =====================================================
 # Prediction
@@ -250,22 +275,28 @@ def predict():
         conn.close()
 
         return render_template(
+
             "dashboard.html",
+
             total=total,
             attack=attack,
             normal=normal,
             accuracy=accuracy,
+
+            threat=threat,
+
             file_name=file_name,
             file_type=file_type,
             file_size=file_size,
             upload_time=upload_time,
+
             recent_history=recent_history,
-            threat=threat,
-            attack_percentage=attack_percentage,
+
             chart_labels=chart_labels,
             chart_attack=chart_attack,
             chart_normal=chart_normal
-        )
+
+)
             
                 
 
@@ -278,45 +309,31 @@ def predict():
 # =====================================================
 # Run
 # =====================================================
-@app.route("/download_report")
-def download_report():
+@app.route("/download_history")
+def download_history():
 
-    report = app.config.get("REPORT_DATA")
+    conn = sqlite3.connect("sentinel.db")
+    cursor = conn.cursor()
 
-    if not report:
-        return "Please upload and analyze a dataset first."
+    cursor.execute("""
+        SELECT filename,total,attack,normal
+        FROM history
+    """)
+
+    rows = cursor.fetchall()
+
+    conn.close()
+
+    pdf_path = "reports/History_Report.pdf"
 
     os.makedirs("reports", exist_ok=True)
 
-    pdf_path = "reports/SentinelAI_Report.pdf"
-
     doc = SimpleDocTemplate(pdf_path)
 
-    data = [
+    data = [["File Name","Total","Attack","Normal"]]
 
-        ["SentinelAI Analysis Report",""],
-
-        ["File Name",report["file_name"]],
-
-        ["File Type",report["file_type"]],
-
-        ["File Size",str(report["file_size"])+" MB"],
-
-        ["Upload Time",report["upload_time"]],
-
-        ["Total Records",report["total"]],
-
-        ["Attack Records",report["attack"]],
-
-        ["Normal Records",report["normal"]],
-
-        ["Accuracy",str(report["accuracy"])+"%"],
-
-        ["Model","Random Forest"],
-
-        ["Dataset","NSL-KDD"]
-
-    ]
+    for row in rows:
+        data.append(list(row))
 
     table = Table(data)
 
@@ -331,8 +348,6 @@ def download_report():
         ('BACKGROUND',(0,1),(-1,-1),colors.beige),
 
         ('BOTTOMPADDING',(0,0),(-1,0),12),
-
-        ('FONTNAME',(0,0),(-1,0),'Helvetica-Bold')
 
     ]))
 

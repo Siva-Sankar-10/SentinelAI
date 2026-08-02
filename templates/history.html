@@ -1,22 +1,155 @@
 {% extends "base.html" %}
 
+{% block title %}
+
+Analysis History
+
+{% endblock %}
+
 {% block content %}
 
-<div class="container mt-5 pt-5">
+<section class="container pt-5 mt-5">
 
-<h1 class="text-warning mb-4">
+<div class="text-center mb-5">
 
-Prediction History
+<span class="badge bg-warning text-dark px-3 py-2">
+
+📜 Analysis Logs
+
+</span>
+
+<h1 class="hero-title mt-4">
+
+SentinelAI History
 
 </h1>
 
-<table class="table table-dark table-striped">
+<p class="hero-text mx-auto" style="max-width:700px;">
+
+View all previously analyzed datasets, detection results,
+and AI-generated security reports.
+
+</p>
+
+</div>
+
+<div class="row g-4">
+
+<div class="col-md-3">
+
+<div class="status-card">
+
+<i class="fa-solid fa-folder-open fa-2x text-warning mb-3"></i>
+
+<h2>{{ history|length }}</h2>
+
+<p>Total Reports</p>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="status-card">
+
+<i class="fa-solid fa-clock-rotate-left fa-2x text-info mb-3"></i>
+
+<h2>24/7</h2>
+
+<p>Monitoring</p>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="status-card">
+
+<i class="fa-solid fa-brain fa-2x text-success mb-3"></i>
+
+<h2>AI</h2>
+
+<p>Prediction Engine</p>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="status-card">
+
+<i class="fa-solid fa-shield-halved fa-2x text-danger mb-3"></i>
+
+<h2>Secure</h2>
+
+<p>Database</p>
+
+</div>
+
+</div>
+
+</div>
+<!-- ==========================================
+     SEARCH BAR
+========================================== -->
+
+<div class="glass-box mt-5">
+
+    <div class="row align-items-center">
+
+        <div class="col-md-8">
+
+            <input
+                type="text"
+                id="searchInput"
+                class="form-control form-control-lg"
+                placeholder="🔍 Search by file name...">
+
+        </div>
+
+        <div class="col-md-4 text-end">
+
+            <span class="badge bg-warning text-dark p-3">
+
+                Total Records : {{ history|length }}
+
+            </span>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ==========================================
+     HISTORY TABLE
+========================================== -->
+
+<div class="glass-box mt-4">
+
+<h3 class="text-warning mb-4">
+
+<i class="fa-solid fa-table"></i>
+
+Analysis History
+
+</h3>
+
+<div class="table-responsive">
+
+<table class="table table-dark table-hover table-bordered align-middle" id="historyTable">
+
+<thead>
 
 <tr>
 
 <th>ID</th>
 
-<th>File</th>
+<th>File Name</th>
 
 <th>Total</th>
 
@@ -24,9 +157,15 @@ Prediction History
 
 <th>Normal</th>
 
-<th>Date</th>
+<th>Status</th>
 
 </tr>
+
+</thead>
+
+<tbody>
+
+{% if history %}
 
 {% for row in history %}
 
@@ -38,17 +177,553 @@ Prediction History
 
 <td>{{ row[2] }}</td>
 
-<td>{{ row[3] }}</td>
+<td class="text-danger">
 
-<td>{{ row[4] }}</td>
+{{ row[3] }}
 
-<td>{{ row[5] }}</td>
+</td>
+
+<td class="text-success">
+
+{{ row[4] }}
+
+</td>
+
+<td>
+
+{% if row[3] > row[4] %}
+
+<span class="badge bg-danger">
+
+High Risk
+
+</span>
+
+{% elif row[3] == row[4] %}
+
+<span class="badge bg-warning text-dark">
+
+Medium
+
+</span>
+
+{% else %}
+
+<span class="badge bg-success">
+
+Safe
+
+</span>
+
+{% endif %}
+
+</td>
 
 </tr>
 
 {% endfor %}
 
+{% else %}
+
+<tr>
+
+<td colspan="6" class="text-center">
+
+No Analysis History Available
+
+</td>
+
+</tr>
+
+{% endif %}
+
+</tbody>
+
 </table>
+
+</div>
+
+</div>
+<!-- ==========================================
+     HISTORY ANALYTICS
+========================================== -->
+
+<div class="row mt-5">
+
+    <!-- Total Files -->
+
+    <div class="col-lg-3 mb-4">
+
+        <div class="status-card">
+
+            <i class="fa-solid fa-folder-open fa-3x text-warning mb-3"></i>
+
+            <h2>{{ history|length }}</h2>
+
+            <p>Total Files</p>
+
+        </div>
+
+    </div>
+
+    <!-- AI Model -->
+
+    <div class="col-lg-3 mb-4">
+
+        <div class="status-card">
+
+            <i class="fa-solid fa-brain fa-3x text-info mb-3"></i>
+
+            <h2>RF</h2>
+
+            <p>AI Model</p>
+
+        </div>
+
+    </div>
+
+    <!-- Dataset -->
+
+    <div class="col-lg-3 mb-4">
+
+        <div class="status-card">
+
+            <i class="fa-solid fa-database fa-3x text-success mb-3"></i>
+
+            <h2>NSL</h2>
+
+            <p>Dataset</p>
+
+        </div>
+
+    </div>
+
+    <!-- Monitoring -->
+
+    <div class="col-lg-3 mb-4">
+
+        <div class="status-card">
+
+            <i class="fa-solid fa-shield-halved fa-3x text-danger mb-3"></i>
+
+            <h2>24/7</h2>
+
+            <p>Monitoring</p>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ==========================================
+     HISTORY INFORMATION
+========================================== -->
+
+<div class="glass-box mt-4">
+
+    <h3 class="text-warning mb-4">
+
+        <i class="fa-solid fa-circle-info"></i>
+
+        Analysis Information
+
+    </h3>
+
+    <div class="row">
+
+        <div class="col-md-6">
+
+            <ul class="list-group list-group-flush">
+
+                <li class="list-group-item bg-dark text-light">
+
+                    ✔ Machine Learning Model :
+                    <strong>Random Forest</strong>
+
+                </li>
+
+                <li class="list-group-item bg-dark text-light">
+
+                    ✔ Dataset :
+                    <strong>NSL-KDD</strong>
+
+                </li>
+
+                <li class="list-group-item bg-dark text-light">
+
+                    ✔ Database :
+                    <strong>SQLite</strong>
+
+                </li>
+
+            </ul>
+
+        </div>
+
+        <div class="col-md-6">
+
+            <ul class="list-group list-group-flush">
+
+                <li class="list-group-item bg-dark text-light">
+
+                    ✔ History Stored Permanently
+
+                </li>
+
+                <li class="list-group-item bg-dark text-light">
+
+                    ✔ Reports Available Anytime
+
+                </li>
+
+                <li class="list-group-item bg-dark text-light">
+
+                    ✔ Enterprise Security Logs
+
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</div>
+<!-- ==========================================
+     HISTORY ANALYTICS CHART
+========================================== -->
+
+<div class="glass-box mt-5">
+
+    <h3 class="text-warning text-center mb-4">
+
+        <i class="fa-solid fa-chart-line"></i>
+
+        Previous Analysis Trend
+
+    </h3>
+
+    <canvas id="historyChart"></canvas>
+
+</div>
+
+
+<!-- Chart.js -->
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+// ==========================================
+// HISTORY CHART
+// ==========================================
+
+const historyCtx = document.getElementById("historyChart");
+
+new Chart(historyCtx,{
+
+    type:"line",
+
+    data:{
+
+        labels: {{ chart_labels | tojson }},
+
+        datasets:[
+
+            {
+
+                label:"Attack",
+
+                data: {{ chart_attack | tojson }},
+
+                borderColor:"#ff4444",
+
+                backgroundColor:"rgba(255,68,68,.15)",
+
+                fill:true,
+
+                tension:.4
+
+            },
+
+            {
+
+                label:"Normal",
+
+                data: {{ chart_normal | tojson }},
+
+                borderColor:"#00cc66",
+
+                backgroundColor:"rgba(0,204,102,.15)",
+
+                fill:true,
+
+                tension:.4
+
+            }
+
+        ]
+
+    },
+
+    options:{
+
+        responsive:true,
+
+        plugins:{
+
+            legend:{
+
+                labels:{
+
+                    color:"white"
+
+                }
+
+            }
+
+        },
+
+        scales:{
+
+            x:{
+
+                ticks:{
+
+                    color:"white"
+
+                }
+
+            },
+
+            y:{
+
+                beginAtZero:true,
+
+                ticks:{
+
+                    color:"white"
+
+                }
+
+            }
+
+        }
+
+    }
+
+});
+
+
+// ==========================================
+// LIVE SEARCH
+// ==========================================
+
+const searchInput = document.getElementById("searchInput");
+
+searchInput.addEventListener("keyup", function(){
+
+    let filter = this.value.toUpperCase();
+
+    let table = document.getElementById("historyTable");
+
+    let tr = table.getElementsByTagName("tr");
+
+    for(let i=1;i<tr.length;i++){
+
+        let td = tr[i].getElementsByTagName("td")[1];
+
+        if(td){
+
+            let txt = td.textContent || td.innerText;
+
+            tr[i].style.display =
+
+            txt.toUpperCase().indexOf(filter)>-1 ?
+
+            "" : "none";
+
+        }
+
+    }
+
+});
+
+</script>
+<!-- ==========================================
+     ACTION BUTTONS
+========================================== -->
+
+<div class="row mt-5">
+
+    <div class="col-md-6 mb-3">
+
+        <a href="/download_history"
+
+           class="btn btn-gold btn-lg w-100">
+
+            <i class="fa-solid fa-file-arrow-down"></i>
+
+            Export History (PDF)
+
+        </a>
+
+    </div>
+
+    <div class="col-md-6 mb-3">
+
+        <a href="/clear_history"
+
+           class="btn btn-danger btn-lg w-100"
+
+           onclick="return confirm('Are you sure you want to delete all analysis history?')">
+
+            <i class="fa-solid fa-trash"></i>
+
+            Clear History
+
+        </a>
+
+    </div>
+
+</div>
+
+
+<!-- ==========================================
+     AI SUMMARY
+========================================== -->
+
+<div class="glass-box mt-5">
+
+    <h2 class="text-warning mb-4">
+
+        <i class="fa-solid fa-robot"></i>
+
+        AI Summary
+
+    </h2>
+
+    <div class="alert alert-info">
+
+        <strong>SentinelAI Observation</strong>
+
+        <hr>
+
+        <p>
+
+            The analysis history displayed above contains all datasets
+            processed by the SentinelAI intrusion detection system.
+
+            Every uploaded dataset is analyzed using the
+            <strong>Random Forest Machine Learning Model</strong>
+            trained on the
+            <strong>NSL-KDD Dataset</strong>.
+
+        </p>
+
+        <p>
+
+            Historical records allow administrators to compare
+            previous network traffic and monitor security trends
+            over time.
+
+        </p>
+
+    </div>
+
+</div>
+
+
+<!-- ==========================================
+     DATABASE INFORMATION
+========================================== -->
+
+<div class="glass-box mt-4">
+
+    <h2 class="text-warning mb-4">
+
+        <i class="fa-solid fa-database"></i>
+
+        Database Information
+
+    </h2>
+
+    <div class="row text-center">
+
+        <div class="col-md-3">
+
+            <h3 class="text-warning">
+
+                SQLite
+
+            </h3>
+
+            <small>Database</small>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <h3 class="text-warning">
+
+                Random Forest
+
+            </h3>
+
+            <small>Model</small>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <h3 class="text-warning">
+
+                NSL-KDD
+
+            </h3>
+
+            <small>Dataset</small>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <h3 class="text-warning">
+
+                {{ history|length }}
+
+            </h3>
+
+            <small>Total Reports</small>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ==========================================
+     FOOTER
+========================================== -->
+
+<div class="text-center mt-5 mb-5">
+
+    <hr>
+
+    <h4 class="text-warning">
+
+        SentinelAI Enterprise Security Platform
+
+    </h4>
+
+    <p class="text-light">
+
+        Analysis History • AI Monitoring • Security Intelligence
+
+    </p>
 
 </div>
 
