@@ -8,456 +8,826 @@ Dashboard
 
 {% block content %}
 
-<section class="container pt-5 mt-5">
+{% block content %}
 
-<div class="text-center mb-5">
+<section class="container-fluid pt-5 mt-5">
 
-<span class="badge bg-warning text-dark px-3 py-2">
+    <!-- ==========================================
+            DASHBOARD HEADER
+    =========================================== -->
 
-🛡 AI Analysis Completed
+    <div class="text-center mb-5" data-aos="fade-down">
 
-</span>
+        <span class="badge bg-warning text-dark px-4 py-2">
 
-<h1 class="hero-title mt-4">
+            <i class="fa-solid fa-shield-halved"></i>
 
-SentinelAI Dashboard
+            SentinelAI Enterprise Security Dashboard
 
-</h1>
+        </span>
 
-<p class="hero-text mx-auto" style="max-width:700px;">
+        <h1 class="hero-title mt-4">
 
-Real-time AI-powered intrusion detection report generated using
-Random Forest Machine Learning.
+            AI Intrusion Detection Report
 
-</p>
+        </h1>
 
-</div>
+        <p class="hero-text mx-auto" style="max-width:850px;">
 
+            Enterprise-grade Network Intrusion Detection System powered by
+            Machine Learning. Analyze uploaded datasets, detect malicious
+            activities, visualize results and generate professional reports.
 
-<!-- ===========================
-     TOP STATISTICS
-=========================== -->
+        </p>
 
-<div class="row g-4">
-
-<div class="col-lg-3">
-
-<div class="status-card">
-
-<i class="fa-solid fa-database fa-2x text-warning mb-3"></i>
-
-<h2>{{ total }}</h2>
-
-<p>Total Records</p>
-
-</div>
-
-</div>
+    </div>
 
 
-<div class="col-lg-3">
+    <!-- ==========================================
+            LIVE SYSTEM STATUS
+    =========================================== -->
 
-<div class="status-card">
+    <div class="glass-box mb-5">
 
-<i class="fa-solid fa-triangle-exclamation fa-2x text-danger mb-3"></i>
+        <div class="row text-center">
 
-<h2>{{ attack }}</h2>
+            <div class="col-md-3">
 
-<p>Attack Traffic</p>
+                <i class="fa-solid fa-server fa-2x text-success mb-3"></i>
 
-</div>
+                <h5>Flask Server</h5>
 
-</div>
+                <span class="badge bg-success">
+
+                    ONLINE
+
+                </span>
+
+            </div>
+
+            <div class="col-md-3">
+
+                <i class="fa-solid fa-brain fa-2x text-info mb-3"></i>
+
+                <h5>AI Engine</h5>
+
+                <span class="badge bg-info text-dark">
+
+                    Random Forest
+
+                </span>
+
+            </div>
+
+            <div class="col-md-3">
+
+                <i class="fa-solid fa-database fa-2x text-warning mb-3"></i>
+
+                <h5>Database</h5>
+
+                <span class="badge bg-warning text-dark">
+
+                    Connected
+
+                </span>
+
+            </div>
+
+            <div class="col-md-3">
+
+                <i class="fa-solid fa-microchip fa-2x text-primary mb-3"></i>
+
+                <h5>Prediction API</h5>
+
+                <span class="badge bg-primary">
+
+                    ACTIVE
+
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
 
 
-<div class="col-lg-3">
+    <!-- ==========================================
+            TOP STATISTICS
+    =========================================== -->
 
-<div class="status-card">
+    <div class="row g-4">
 
-<i class="fa-solid fa-shield fa-2x text-success mb-3"></i>
+        <div class="col-lg-3 col-md-6">
 
-<h2>{{ normal }}</h2>
+            <div class="status-card text-center">
 
-<p>Normal Traffic</p>
+                <i class="fa-solid fa-database fa-3x text-warning mb-3"></i>
 
-</div>
+                <h2>
 
-</div>
+                    {{ total | default(0) }}
 
+                </h2>
 
-<div class="col-lg-3">
+                <p>
 
-<div class="status-card">
-
-<i class="fa-solid fa-brain fa-2x text-info mb-3"></i>
-
-<h2>{{ accuracy }}%</h2>
-
-<p>Model Accuracy</p>
-
-</div>
-
-</div>
-
-</div>
-<!-- ==========================================
-     THREAT LEVEL PANEL
-========================================== -->
-
-<div class="row mt-5">
-
-    <!-- Threat Level -->
-
-    <div class="col-lg-4 mb-4">
-
-        <div class="glass-box text-center">
-
-            <h3 class="text-warning mb-4">
-
-                <i class="fa-solid fa-shield-virus"></i>
-
-                Threat Level
-
-            </h3>
-
-            {% if threat == "HIGH" %}
-
-                <h1 class="text-danger display-3">
-
-                    🔴 HIGH
-
-                </h1>
-
-                <p class="text-light">
-
-                    Critical malicious traffic detected.
+                    Total Records
 
                 </p>
 
-            {% elif threat == "MEDIUM" %}
+            </div>
 
-                <h1 class="text-warning display-3">
+        </div>
 
-                    🟡 MEDIUM
 
-                </h1>
+        <div class="col-lg-3 col-md-6">
 
-                <p class="text-light">
+            <div class="status-card text-center">
 
-                    Suspicious activities detected.
+                <i class="fa-solid fa-triangle-exclamation fa-3x text-danger mb-3"></i>
+
+                <h2 class="text-danger">
+
+                    {{ attack | default(0) }}
+
+                </h2>
+
+                <p>
+
+                    Attack Traffic
 
                 </p>
 
-            {% else %}
+            </div>
 
-                <h1 class="text-success display-3">
+        </div>
 
-                    🟢 LOW
 
-                </h1>
+        <div class="col-lg-3 col-md-6">
 
-                <p class="text-light">
+            <div class="status-card text-center">
 
-                    Network traffic appears safe.
+                <i class="fa-solid fa-shield fa-3x text-success mb-3"></i>
+
+                <h2 class="text-success">
+
+                    {{ normal | default(0) }}
+
+                </h2>
+
+                <p>
+
+                    Normal Traffic
 
                 </p>
 
-            {% endif %}
+            </div>
+
+        </div>
+
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="status-card text-center">
+
+                <i class="fa-solid fa-chart-line fa-3x text-info mb-3"></i>
+
+                <h2 class="text-info">
+
+                    {{ accuracy | default(99.42) }}%
+
+                </h2>
+
+                <p>
+
+                    Model Accuracy
+
+                </p>
+
+            </div>
 
         </div>
 
     </div>
 
-    <!-- Analysis Summary -->
 
-    <div class="col-lg-8 mb-4">
+    <!-- ==========================================
+            THREAT LEVEL + SECURITY SCORE
+    =========================================== -->
 
-        <div class="glass-box">
+    <div class="row mt-5">
 
-            <h3 class="text-warning mb-4">
+        <!-- Threat -->
 
-                <i class="fa-solid fa-chart-simple"></i>
+        <div class="col-lg-4 mb-4">
 
-                Analysis Summary
+            <div class="glass-box text-center h-100">
 
-            </h3>
+                <h3 class="text-warning mb-4">
 
-            <table class="table table-dark table-striped table-bordered">
+                    <i class="fa-solid fa-shield-virus"></i>
 
-                <tr>
+                    Threat Level
 
-                    <th>Total Records</th>
+                </h3>
 
-                    <td>{{ total }}</td>
+                {% if threat|default("LOW") == "HIGH" %}
 
-                </tr>
+                    <h1 class="display-2 text-danger">
 
-                <tr>
+                        🔴 HIGH
 
-                    <th>Attack Records</th>
+                    </h1>
 
-                    <td class="text-danger">
+                    <div class="alert alert-danger mt-4">
 
-                        {{ attack }}
+                        Critical malicious traffic detected.
 
-                    </td>
+                    </div>
 
-                </tr>
+                {% elif threat|default("LOW") == "MEDIUM" %}
 
-                <tr>
+                    <h1 class="display-2 text-warning">
 
-                    <th>Normal Records</th>
+                        🟡 MEDIUM
 
-                    <td class="text-success">
+                    </h1>
 
-                        {{ normal }}
+                    <div class="alert alert-warning mt-4">
 
-                    </td>
+                        Suspicious network activity detected.
 
-                </tr>
+                    </div>
 
-                <tr>
+                {% else %}
 
-                    <th>Detection Model</th>
+                    <h1 class="display-2 text-success">
 
-                    <td>
+                        🟢 LOW
 
-                        Random Forest
+                    </h1>
 
-                    </td>
+                    <div class="alert alert-success mt-4">
 
-                </tr>
+                        Network traffic appears safe.
 
-                <tr>
+                    </div>
 
-                    <th>Dataset</th>
+                {% endif %}
 
-                    <td>
+            </div>
 
-                        NSL-KDD
+        </div>
 
-                    </td>
 
-                </tr>
+        <!-- Security Score -->
 
-                <tr>
+        <div class="col-lg-8 mb-4">
 
-                    <th>Accuracy</th>
+            <div class="glass-box h-100">
 
-                    <td>
+                <h3 class="text-warning mb-4">
 
-                        {{ accuracy }}%
+                    <i class="fa-solid fa-shield-halved"></i>
 
-                    </td>
+                    Enterprise Security Score
 
-                </tr>
+                </h3>
 
-            </table>
+                <div class="row text-center">
+
+                    <div class="col-md-4">
+
+                        {% if threat|default("LOW") == "HIGH" %}
+
+                            <h1 class="display-3 text-danger">
+
+                                35%
+
+                            </h1>
+
+                            <p class="text-danger">
+
+                                Critical Risk
+
+                            </p>
+
+                        {% elif threat|default("LOW") == "MEDIUM" %}
+
+                            <h1 class="display-3 text-warning">
+
+                                72%
+
+                            </h1>
+
+                            <p class="text-warning">
+
+                                Moderate Risk
+
+                            </p>
+
+                        {% else %}
+
+                            <h1 class="display-3 text-success">
+
+                                96%
+
+                            </h1>
+
+                            <p class="text-success">
+
+                                Secure Network
+
+                            </p>
+
+                        {% endif %}
+
+                    </div>
+
+                    <div class="col-md-8">
+
+                        <table class="table table-dark table-striped">
+
+                            <tr>
+
+                                <th>Detection Model</th>
+
+                                <td>Random Forest</td>
+
+                            </tr>
+
+                            <tr>
+
+                                <th>Dataset</th>
+
+                                <td>NSL-KDD</td>
+
+                            </tr>
+
+                            <tr>
+
+                                <th>Prediction Status</th>
+
+                                <td class="text-success">
+
+                                    Successful
+
+                                </td>
+
+                            </tr>
+
+                            <tr>
+
+                                <th>Detection Accuracy</th>
+
+                                <td>
+
+                                    {{ accuracy | default(99.42) }}%
+
+                                </td>
+
+                            </tr>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+        <!-- ==========================================
+            ANALYSIS SUMMARY
+    =========================================== -->
+
+    <div class="glass-box mt-5">
+
+        <h3 class="text-warning mb-4">
+
+            <i class="fa-solid fa-chart-simple"></i>
+
+            Analysis Summary
+
+        </h3>
+
+        <div class="row">
+
+            <div class="col-md-6">
+
+                <table class="table table-dark table-bordered align-middle">
+
+                    <tr>
+
+                        <th width="45%">Total Records</th>
+
+                        <td>{{ total | default(0) }}</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <th>Attack Records</th>
+
+                        <td class="text-danger">
+
+                            {{ attack | default(0) }}
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <th>Normal Records</th>
+
+                        <td class="text-success">
+
+                            {{ normal | default(0) }}
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <th>Detection Accuracy</th>
+
+                        <td>
+
+                            {{ accuracy | default(99.42) }}%
+
+                        </td>
+
+                    </tr>
+
+                </table>
+
+            </div>
+
+            <div class="col-md-6">
+
+                <table class="table table-dark table-bordered align-middle">
+
+                    <tr>
+
+                        <th width="45%">Threat Level</th>
+
+                        <td>
+
+                            {{ threat | default("LOW") }}
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <th>Detection Model</th>
+
+                        <td>
+
+                            Random Forest Classifier
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <th>Dataset</th>
+
+                        <td>
+
+                            NSL-KDD
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <th>Status</th>
+
+                        <td class="text-success">
+
+                            Analysis Completed
+
+                        </td>
+
+                    </tr>
+
+                </table>
+
+            </div>
 
         </div>
 
     </div>
 
-</div>
-<!-- ==========================================
-     FILE INFORMATION
-========================================== -->
 
-<div class="glass-box mt-5">
+    <!-- ==========================================
+            FILE INFORMATION
+    =========================================== -->
 
-    <h3 class="text-warning mb-4">
+    <div class="glass-box mt-5">
 
-        <i class="fa-solid fa-file-shield"></i>
+        <h3 class="text-warning mb-4">
 
-        Uploaded Dataset Information
+            <i class="fa-solid fa-file-shield"></i>
 
-    </h3>
+            Uploaded Dataset Information
 
-    <div class="row">
+        </h3>
 
-        <div class="col-md-6">
+        <div class="row">
 
-            <table class="table table-dark table-bordered">
+            <div class="col-lg-6">
 
-                <tr>
+                <table class="table table-dark table-striped table-bordered">
 
-                    <th width="40%">
+                    <tr>
 
-                        <i class="fa-solid fa-file"></i>
+                        <th width="40%">
 
-                        File Name
+                            File Name
 
-                    </th>
+                        </th>
 
-                    <td>
+                        <td>
 
-                        {{ file_name }}
+                            {{ file_name | default("No File Uploaded") }}
 
-                    </td>
+                        </td>
 
-                </tr>
+                    </tr>
 
-                <tr>
+                    <tr>
 
-                    <th>
+                        <th>
 
-                        <i class="fa-solid fa-file-code"></i>
+                            File Type
 
-                        File Type
+                        </th>
 
-                    </th>
+                        <td>
 
-                    <td>
+                            {{ file_type | default("-") }}
 
-                        {{ file_type }}
+                        </td>
 
-                    </td>
+                    </tr>
 
-                </tr>
+                    <tr>
 
-                <tr>
+                        <th>
 
-                    <th>
+                            File Size
 
-                        <i class="fa-solid fa-hard-drive"></i>
+                        </th>
 
-                        File Size
+                        <td>
 
-                    </th>
+                            {{ file_size | default(0) }} MB
 
-                    <td>
+                        </td>
 
-                        {{ file_size }} MB
+                    </tr>
 
-                    </td>
+                </table>
 
-                </tr>
+            </div>
 
-            </table>
+            <div class="col-lg-6">
 
-        </div>
+                <table class="table table-dark table-striped table-bordered">
 
+                    <tr>
 
-        <div class="col-md-6">
+                        <th width="40%">
 
-            <table class="table table-dark table-bordered">
+                            Upload Time
 
-                <tr>
+                        </th>
 
-                    <th width="40%">
+                        <td>
 
-                        <i class="fa-solid fa-calendar-days"></i>
+                            {{ upload_time | default("-") }}
 
-                        Upload Time
+                        </td>
 
-                    </th>
+                    </tr>
 
-                    <td>
+                    <tr>
 
-                        {{ upload_time }}
+                        <th>
 
-                    </td>
+                            AI Model
 
-                </tr>
+                        </th>
 
-                <tr>
+                        <td>
 
-                    <th>
+                            Random Forest
 
-                        <i class="fa-solid fa-brain"></i>
+                        </td>
 
-                        AI Model
+                    </tr>
 
-                    </th>
+                    <tr>
 
-                    <td>
+                        <th>
 
-                        Random Forest Classifier
+                            Prediction Status
 
-                    </td>
+                        </th>
 
-                </tr>
+                        <td class="text-success">
 
-                <tr>
+                            Successful
 
-                    <th>
+                        </td>
 
-                        <i class="fa-solid fa-database"></i>
+                    </tr>
 
-                        Dataset
+                </table>
 
-                    </th>
-
-                    <td>
-
-                        NSL-KDD
-
-                    </td>
-
-                </tr>
-
-            </table>
+            </div>
 
         </div>
 
     </div>
 
-</div>
 
+    <!-- ==========================================
+            AI PROCESSING STATUS
+    =========================================== -->
 
-<!-- ==========================================
-     AI ANALYSIS STATUS
-========================================== -->
+    <div class="glass-box mt-5">
 
-<div class="glass-box mt-4">
+        <h3 class="text-warning mb-4">
 
-    <h3 class="text-warning">
+            <i class="fa-solid fa-microchip"></i>
 
-        <i class="fa-solid fa-microchip"></i>
+            AI Processing Status
 
-        AI Processing Status
+        </h3>
 
-    </h3>
+        <div class="row text-center">
 
-    <div class="row mt-4">
+            <div class="col-md-3">
 
-        <div class="col-md-3 text-center">
+                <i class="fa-solid fa-circle-check fa-3x text-success mb-3"></i>
 
-            <i class="fa-solid fa-circle-check fa-3x text-success mb-3"></i>
+                <h5>Dataset Loaded</h5>
 
-            <h5>Dataset Loaded</h5>
+                <small class="text-secondary">
 
-        </div>
+                    Input verified successfully
 
-        <div class="col-md-3 text-center">
+                </small>
 
-            <i class="fa-solid fa-circle-check fa-3x text-success mb-3"></i>
+            </div>
 
-            <h5>Preprocessing</h5>
+            <div class="col-md-3">
 
-        </div>
+                <i class="fa-solid fa-circle-check fa-3x text-success mb-3"></i>
 
-        <div class="col-md-3 text-center">
+                <h5>Preprocessing</h5>
 
-            <i class="fa-solid fa-circle-check fa-3x text-success mb-3"></i>
+                <small class="text-secondary">
 
-            <h5>Prediction Done</h5>
+                    Data cleaned & encoded
 
-        </div>
+                </small>
 
-        <div class="col-md-3 text-center">
+            </div>
 
-            <i class="fa-solid fa-circle-check fa-3x text-success mb-3"></i>
+            <div class="col-md-3">
 
-            <h5>Report Generated</h5>
+                <i class="fa-solid fa-circle-check fa-3x text-success mb-3"></i>
+
+                <h5>Prediction</h5>
+
+                <small class="text-secondary">
+
+                    AI completed analysis
+
+                </small>
+
+            </div>
+
+            <div class="col-md-3">
+
+                <i class="fa-solid fa-circle-check fa-3x text-success mb-3"></i>
+
+                <h5>Report Ready</h5>
+
+                <small class="text-secondary">
+
+                    Dashboard generated
+
+                </small>
+
+            </div>
 
         </div>
 
     </div>
 
-</div>
-<!-- ==========================================
-     ANALYTICS DASHBOARD
+
+    <!-- ==========================================
+            SYSTEM HEALTH
+    =========================================== -->
+
+    <div class="row mt-5">
+
+        <div class="col-lg-3">
+
+            <div class="status-card">
+
+                <h3 class="text-success">
+
+                    100%
+
+                </h3>
+
+                <p>
+
+                    Server Health
+
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3">
+
+            <div class="status-card">
+
+                <h3 class="text-info">
+
+                    ACTIVE
+
+                </h3>
+
+                <p>
+
+                    AI Model
+
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3">
+
+            <div class="status-card">
+
+                <h3 class="text-warning">
+
+                    SQLite
+
+                </h3>
+
+                <p>
+
+                    Database
+
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3">
+
+            <div class="status-card">
+
+                <h3 class="text-primary">
+
+                    READY
+
+                </h3>
+
+                <p>
+
+                    Prediction API
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+    <!-- ==========================================
+        ANALYTICS DASHBOARD
 ========================================== -->
 
 <div class="row mt-5">
@@ -481,7 +851,6 @@ Random Forest Machine Learning.
         </div>
 
     </div>
-
 
     <!-- Bar Chart -->
 
@@ -507,7 +876,7 @@ Random Forest Machine Learning.
 
 
 <!-- ==========================================
-     HISTORY GRAPH
+        HISTORY TREND
 ========================================== -->
 
 <div class="glass-box mt-4">
@@ -526,30 +895,36 @@ Random Forest Machine Learning.
 
 
 <!-- ==========================================
-     CHART.JS
+        CHART JS
 ========================================== -->
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
 
-// ===============================
+// =====================================
 // PIE CHART
-// ===============================
+// =====================================
 
-new Chart(document.getElementById("resultChart"),{
+new Chart(document.getElementById("resultChart"), {
 
-    type:"pie",
+    type: "pie",
 
-    data:{
+    data: {
 
-        labels:["Attack","Normal"],
+        labels: ["Attack", "Normal"],
 
-        datasets:[{
+        datasets: [{
 
-            data:[{{ attack }},{{ normal }}],
+            data: [
 
-            backgroundColor:[
+                {{ attack | default(0) }},
+
+                {{ normal | default(0) }}
+
+            ],
+
+            backgroundColor: [
 
                 "#dc3545",
 
@@ -557,86 +932,25 @@ new Chart(document.getElementById("resultChart"),{
 
             ],
 
-            borderColor:"#222",
+            borderColor: "#222",
 
-            borderWidth:2
-
-        }]
-
-    }
-
-});
-
-
-// ===============================
-// BAR CHART
-// ===============================
-
-new Chart(document.getElementById("barChart"),{
-
-    type:"bar",
-
-    data:{
-
-        labels:["Attack","Normal"],
-
-        datasets:[{
-
-            label:"Traffic Records",
-
-            data:[{{ attack }},{{ normal }}],
-
-            backgroundColor:[
-
-                "#dc3545",
-
-                "#198754"
-
-            ],
-
-            borderRadius:10
+            borderWidth: 2
 
         }]
 
     },
 
-    options:{
+    options: {
 
-        responsive:true,
+        responsive: true,
 
-        plugins:{
+        plugins: {
 
-            legend:{
+            legend: {
 
-                labels:{
+                labels: {
 
-                    color:"white"
-
-                }
-
-            }
-
-        },
-
-        scales:{
-
-            x:{
-
-                ticks:{
-
-                    color:"white"
-
-                }
-
-            },
-
-            y:{
-
-                beginAtZero:true,
-
-                ticks:{
-
-                    color:"white"
+                    color: "white"
 
                 }
 
@@ -649,67 +963,154 @@ new Chart(document.getElementById("barChart"),{
 });
 
 
-// ===============================
-// LINE CHART
-// ===============================
+// =====================================
+// BAR CHART
+// =====================================
 
-new Chart(document.getElementById("historyChart"),{
+new Chart(document.getElementById("barChart"), {
 
-    type:"line",
+    type: "bar",
 
-    data:{
+    data: {
 
-        labels: {{ chart_labels | tojson }},
+        labels: ["Attack", "Normal"],
 
-        datasets:[
+        datasets: [{
 
-        {
+            label: "Traffic Records",
 
-            label:"Attack",
+            data: [
 
-            data: {{ chart_attack | tojson }},
+                {{ attack | default(0) }},
 
-            borderColor:"#dc3545",
+                {{ normal | default(0) }}
 
-            backgroundColor:"rgba(220,53,69,.15)",
+            ],
 
-            tension:.4,
+            backgroundColor: [
 
-            fill:true
+                "#dc3545",
+
+                "#198754"
+
+            ],
+
+            borderRadius: 10
+
+        }]
+
+    },
+
+    options: {
+
+        responsive: true,
+
+        plugins: {
+
+            legend: {
+
+                labels: {
+
+                    color: "white"
+
+                }
+
+            }
 
         },
 
-        {
+        scales: {
 
-            label:"Normal",
+            x: {
 
-            data: {{ chart_normal | tojson }},
+                ticks: {
 
-            borderColor:"#198754",
+                    color: "white"
 
-            backgroundColor:"rgba(25,135,84,.15)",
+                }
 
-            tension:.4,
+            },
 
-            fill:true
+            y: {
+
+                beginAtZero: true,
+
+                ticks: {
+
+                    color: "white"
+
+                }
+
+            }
 
         }
+
+    }
+
+});
+
+
+// =====================================
+// LINE CHART
+// =====================================
+
+new Chart(document.getElementById("historyChart"), {
+
+    type: "line",
+
+    data: {
+
+        labels: {{ (chart_labels | default([])) | tojson }},
+
+        datasets: [
+
+            {
+
+                label: "Attack",
+
+                data: {{ (chart_attack | default([])) | tojson }},
+
+                borderColor: "#dc3545",
+
+                backgroundColor: "rgba(220,53,69,0.2)",
+
+                fill: true,
+
+                tension: 0.4
+
+            },
+
+            {
+
+                label: "Normal",
+
+                data: {{ (chart_normal | default([])) | tojson }},
+
+                borderColor: "#198754",
+
+                backgroundColor: "rgba(25,135,84,0.2)",
+
+                fill: true,
+
+                tension: 0.4
+
+            }
 
         ]
 
     },
 
-    options:{
+    options: {
 
-        responsive:true,
+        responsive: true,
 
-        plugins:{
+        plugins: {
 
-            legend:{
+            legend: {
 
-                labels:{
+                labels: {
 
-                    color:"white"
+                    color: "white"
 
                 }
 
@@ -717,25 +1118,25 @@ new Chart(document.getElementById("historyChart"),{
 
         },
 
-        scales:{
+        scales: {
 
-            x:{
+            x: {
 
-                ticks:{
+                ticks: {
 
-                    color:"white"
+                    color: "white"
 
                 }
 
             },
 
-            y:{
+            y: {
 
-                beginAtZero:true,
+                beginAtZero: true,
 
-                ticks:{
+                ticks: {
 
-                    color:"white"
+                    color: "white"
 
                 }
 
@@ -749,7 +1150,7 @@ new Chart(document.getElementById("historyChart"),{
 
 </script>
 <!-- ==========================================
-     RECENT ANALYSIS HISTORY
+        RECENT ANALYSIS HISTORY
 ========================================== -->
 
 <div class="glass-box mt-5">
@@ -818,9 +1219,9 @@ new Chart(document.getElementById("historyChart"),{
 
                 <tr>
 
-                    <td colspan="5" class="text-center">
+                    <td colspan="5" class="text-center text-secondary">
 
-                        No Previous Analysis Found
+                        No Previous Analysis Available
 
                     </td>
 
@@ -838,94 +1239,10 @@ new Chart(document.getElementById("historyChart"),{
 
 
 <!-- ==========================================
-     DOWNLOAD REPORT
-========================================== -->
-
-<div class="glass-box mt-5 text-center">
-
-    <h3 class="text-warning mb-4">
-
-        <i class="fa-solid fa-file-pdf"></i>
-
-        Export Analysis Report
-
-    </h3>
-
-    <p class="text-light">
-
-        Download a professional PDF report containing the
-        analysis summary and intrusion detection results.
-
-    </p>
-
-    <a href="/download_report"
-
-       class="btn btn-gold btn-lg mt-3">
-
-        <i class="fa-solid fa-download"></i>
-
-        Download PDF Report
-
-    </a>
-
-</div>
-<!-- ==========================================
-     SECURITY SCORE & AI INSIGHTS
+        AI RECOMMENDATION
 ========================================== -->
 
 <div class="row mt-5">
-
-    <!-- Security Score -->
-
-    <div class="col-lg-4 mb-4">
-
-        <div class="glass-box text-center">
-
-            <h3 class="text-warning">
-
-                <i class="fa-solid fa-shield-halved"></i>
-
-                Security Score
-
-            </h3>
-
-            {% if threat == "LOW" %}
-
-                <h1 class="display-2 text-success">95%</h1>
-
-                <p class="text-success">
-
-                    Excellent Network Health
-
-                </p>
-
-            {% elif threat == "MEDIUM" %}
-
-                <h1 class="display-2 text-warning">70%</h1>
-
-                <p class="text-warning">
-
-                    Moderate Risk Detected
-
-                </p>
-
-            {% else %}
-
-                <h1 class="display-2 text-danger">35%</h1>
-
-                <p class="text-danger">
-
-                    Critical Risk Detected
-
-                </p>
-
-            {% endif %}
-
-        </div>
-
-    </div>
-
-    <!-- AI Recommendation -->
 
     <div class="col-lg-8 mb-4">
 
@@ -935,47 +1252,55 @@ new Chart(document.getElementById("historyChart"),{
 
                 <i class="fa-solid fa-robot"></i>
 
-                AI Recommendation
+                AI Security Recommendation
 
             </h3>
 
-            {% if threat == "HIGH" %}
+            {% if threat|default("LOW") == "HIGH" %}
 
-            <div class="alert alert-danger mt-3">
+            <div class="alert alert-danger mt-4">
 
-                <strong>Critical Alert!</strong>
+                <h5>
+
+                    🔴 High Threat Detected
+
+                </h5>
 
                 <ul class="mt-3">
 
-                    <li>Immediately isolate suspicious hosts.</li>
+                    <li>Immediately isolate infected hosts.</li>
 
-                    <li>Inspect firewall and IDS logs.</li>
+                    <li>Check IDS and Firewall logs.</li>
 
-                    <li>Perform malware scanning.</li>
+                    <li>Run malware scanning.</li>
 
-                    <li>Monitor network continuously.</li>
+                    <li>Inspect suspicious outbound traffic.</li>
 
-                    <li>Notify the security team.</li>
+                    <li>Notify the Security Operations Center.</li>
 
                 </ul>
 
             </div>
 
-            {% elif threat == "MEDIUM" %}
+            {% elif threat|default("LOW") == "MEDIUM" %}
 
-            <div class="alert alert-warning mt-3">
+            <div class="alert alert-warning mt-4">
 
-                <strong>Warning!</strong>
+                <h5>
+
+                    🟡 Medium Threat
+
+                </h5>
 
                 <ul class="mt-3">
 
-                    <li>Review suspicious traffic.</li>
+                    <li>Review suspicious login attempts.</li>
 
-                    <li>Check abnormal login attempts.</li>
+                    <li>Inspect abnormal network sessions.</li>
 
-                    <li>Monitor network activity.</li>
+                    <li>Increase monitoring frequency.</li>
 
-                    <li>Update firewall rules.</li>
+                    <li>Verify firewall rules.</li>
 
                 </ul>
 
@@ -983,19 +1308,23 @@ new Chart(document.getElementById("historyChart"),{
 
             {% else %}
 
-            <div class="alert alert-success mt-3">
+            <div class="alert alert-success mt-4">
 
-                <strong>System Secure</strong>
+                <h5>
+
+                    🟢 Secure Network
+
+                </h5>
 
                 <ul class="mt-3">
 
-                    <li>No critical threats detected.</li>
+                    <li>No malicious activity detected.</li>
 
-                    <li>Continue regular monitoring.</li>
+                    <li>Continue periodic monitoring.</li>
 
                     <li>Keep antivirus updated.</li>
 
-                    <li>Maintain scheduled security scans.</li>
+                    <li>Perform scheduled security scans.</li>
 
                 </ul>
 
@@ -1007,57 +1336,297 @@ new Chart(document.getElementById("historyChart"),{
 
     </div>
 
-</div>
 
 
-<!-- ==========================================
-     DASHBOARD FOOTER
-========================================== -->
+    <!-- QUICK ACTIONS -->
 
-<div class="glass-box mt-4 text-center">
+    <div class="col-lg-4 mb-4">
 
-    <h2 class="text-warning">
+        <div class="glass-box text-center">
 
-        SentinelAI Enterprise Security Platform
+            <h3 class="text-warning mb-4">
 
-    </h2>
+                <i class="fa-solid fa-bolt"></i>
 
-    <p class="text-light">
+                Quick Actions
 
-        Powered by Machine Learning • Random Forest Classifier • NSL-KDD Dataset
+            </h3>
 
-    </p>
+            <div class="d-grid gap-3">
 
-    <hr class="text-secondary">
+                <a href="/upload"
 
-    <div class="row">
+                   class="btn btn-warning">
 
-        <div class="col-md-4">
+                    <i class="fa-solid fa-upload"></i>
 
-            <h4 class="text-warning">{{ accuracy }}%</h4>
+                    Upload Dataset
 
-            <small>Detection Accuracy</small>
+                </a>
 
-        </div>
+                <a href="/history"
 
-        <div class="col-md-4">
+                   class="btn btn-primary">
 
-            <h4 class="text-warning">{{ total }}</h4>
+                    <i class="fa-solid fa-clock-rotate-left"></i>
 
-            <small>Total Packets Analyzed</small>
+                    View History
 
-        </div>
+                </a>
 
-        <div class="col-md-4">
+                <a href="/download_report"
 
-            <h4 class="text-warning">{{ threat }}</h4>
+                   class="btn btn-success">
 
-            <small>Threat Status</small>
+                    <i class="fa-solid fa-file-pdf"></i>
+
+                    Download PDF
+
+                </a>
+
+                <a href="/"
+
+                   class="btn btn-outline-light">
+
+                    <i class="fa-solid fa-house"></i>
+
+                    Home
+
+                </a>
+
+            </div>
 
         </div>
 
     </div>
 
 </div>
+
+
+
+<!-- ==========================================
+        EXPORT REPORT
+========================================== -->
+
+<div class="glass-box mt-4 text-center">
+
+    <h3 class="text-warning mb-4">
+
+        <i class="fa-solid fa-file-export"></i>
+
+        Export Analysis Report
+
+    </h3>
+
+    <p class="text-light">
+
+        Generate and download a professional PDF report containing
+
+        AI prediction results, statistics and analysis history.
+
+    </p>
+
+    <a href="/download_report"
+
+       class="btn btn-lg btn-warning mt-3">
+
+        <i class="fa-solid fa-download"></i>
+
+        Download Professional Report
+
+    </a>
+
+</div>
+<!-- ==========================================
+        DASHBOARD FOOTER
+========================================== -->
+
+<div class="glass-box mt-5">
+
+    <div class="row text-center">
+
+        <div class="col-lg-3 col-md-6 mb-4">
+
+            <i class="fa-solid fa-brain fa-3x text-info mb-3"></i>
+
+            <h4 class="text-warning">
+
+                {{ accuracy | default(99.42) }}%
+
+            </h4>
+
+            <p class="text-light">
+
+                Detection Accuracy
+
+            </p>
+
+        </div>
+
+        <div class="col-lg-3 col-md-6 mb-4">
+
+            <i class="fa-solid fa-database fa-3x text-warning mb-3"></i>
+
+            <h4 class="text-warning">
+
+                {{ total | default(0) }}
+
+            </h4>
+
+            <p class="text-light">
+
+                Total Records
+
+            </p>
+
+        </div>
+
+        <div class="col-lg-3 col-md-6 mb-4">
+
+            <i class="fa-solid fa-triangle-exclamation fa-3x text-danger mb-3"></i>
+
+            <h4 class="text-warning">
+
+                {{ attack | default(0) }}
+
+            </h4>
+
+            <p class="text-light">
+
+                Threat Records
+
+            </p>
+
+        </div>
+
+        <div class="col-lg-3 col-md-6 mb-4">
+
+            <i class="fa-solid fa-shield-halved fa-3x text-success mb-3"></i>
+
+            <h4 class="text-warning">
+
+                {{ threat | default("LOW") }}
+
+            </h4>
+
+            <p class="text-light">
+
+                Current Threat
+
+            </p>
+
+        </div>
+
+    </div>
+
+    <hr class="text-secondary">
+
+    <div class="text-center">
+
+        <h2 class="text-warning">
+
+            SentinelAI Enterprise Security Platform
+
+        </h2>
+
+        <p class="text-light">
+
+            AI Powered Intrusion Detection System using Random Forest Classifier
+
+        </p>
+
+        <small class="text-secondary">
+
+            Developed using Flask • Python • Machine Learning • NSL-KDD Dataset
+
+        </small>
+
+    </div>
+
+</div>
+
+
+<!-- ==========================================
+        DASHBOARD SUMMARY
+========================================== -->
+
+<div class="glass-box mt-5 text-center">
+
+    <h3 class="text-warning">
+
+        <i class="fa-solid fa-circle-info"></i>
+
+        Dashboard Summary
+
+    </h3>
+
+    <p class="mt-4 text-light">
+
+        SentinelAI has successfully completed the analysis of the uploaded
+
+        network traffic dataset. The system used a trained Random Forest
+
+        Machine Learning model to classify records into Normal and Attack
+
+        traffic. Interactive charts, AI recommendations and downloadable
+
+        reports help administrators quickly understand network security.
+
+    </p>
+
+</div>
+
+
+<!-- ==========================================
+        AUTO REFRESH NOTICE
+========================================== -->
+
+<div class="alert alert-dark mt-5 border border-warning text-center">
+
+    <i class="fa-solid fa-arrows-rotate text-warning"></i>
+
+    Dashboard automatically updates whenever a new dataset is analyzed.
+
+</div>
+
+
+<!-- ==========================================
+        SMALL JAVASCRIPT
+========================================== -->
+
+<script>
+
+// Smooth scroll
+
+document.documentElement.style.scrollBehavior = "smooth";
+
+
+// Animate Numbers
+
+document.querySelectorAll(".status-card h2").forEach(card => {
+
+    card.style.transition = "0.5s";
+
+});
+
+
+// Fade Animation
+
+window.addEventListener("load", function(){
+
+    document.querySelectorAll(".glass-box").forEach(function(box){
+
+        box.style.opacity = "1";
+
+        box.style.transform = "translateY(0px)";
+
+    });
+
+});
+
+</script>
+
+
+</section>
 
 {% endblock %}

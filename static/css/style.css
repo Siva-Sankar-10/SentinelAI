@@ -2190,3 +2190,20 @@ footer{
 /* =========================
         END
 ========================= */
+.clock-box{
+
+    color:#FFD700;
+
+    font-family:'Orbitron',sans-serif;
+
+    font-size:14px;
+
+    padding:8px 15px;
+
+    border:1px solid rgba(255,215,0,.4);
+
+    border-radius:30px;
+
+    background:rgba(255,255,255,.05);
+
+}
