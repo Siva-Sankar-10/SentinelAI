@@ -1,29 +1,44 @@
-/* ===========================================================
-   SENTINEL AI v2.0
-   PREMIUM BLACK + GOLD THEME
-=========================================================== */
+/* ==========================================================
+   SENTINELAI v3.0 ENTERPRISE UI
+   Premium Cybersecurity Dashboard
+========================================================== */
 
-/* Google Fonts */
+/* ==========================
+   GOOGLE FONTS
+========================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&family=Poppins:wght@300;400;500;600&family=JetBrains+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Poppins:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap');
+
+
+/* ==========================
+   ROOT VARIABLES
+========================== */
 
 :root{
 
---bg:#050505;
---bg2:#111111;
---card:#181818;
+--bg:#050608;
+--bg2:#0d0f12;
+--card:#17191d;
+--card2:#20242a;
 
 --gold:#D4AF37;
---gold2:#FFD700;
+--gold-light:#FFD700;
+--gold-dark:#9b7b18;
+
+--green:#00ff99;
+--red:#ff4d4d;
+--blue:#29b6ff;
 
 --text:#ffffff;
---text2:#bcbcbc;
-
---border:#2f2f2f;
+--text2:#c9c9c9;
+--border:#2f343b;
 
 }
 
-/* Reset */
+
+/* ==========================
+   RESET
+========================== */
 
 *{
 
@@ -41,17 +56,25 @@ scroll-behavior:smooth;
 
 body{
 
-background:var(--bg);
-
-color:white;
-
 font-family:'Poppins',sans-serif;
+
+background:
+radial-gradient(circle at top left,#2d2105 0%,transparent 35%),
+radial-gradient(circle at bottom right,#2a1705 0%,transparent 35%),
+linear-gradient(135deg,#050608,#0b0c0f);
+
+color:var(--text);
 
 overflow-x:hidden;
 
+min-height:100vh;
+
 }
 
-/* Scrollbar */
+
+/* ==========================
+   PREMIUM SCROLLBAR
+========================== */
 
 ::-webkit-scrollbar{
 
@@ -61,83 +84,129 @@ width:10px;
 
 ::-webkit-scrollbar-track{
 
-background:#111;
+background:#0f1012;
 
 }
 
 ::-webkit-scrollbar-thumb{
 
-background:linear-gradient(var(--gold),var(--gold2));
+background:linear-gradient(
+180deg,
+var(--gold),
+var(--gold-light)
+);
 
-border-radius:10px;
+border-radius:50px;
 
 }
 
-/* Particle Background */
+::-webkit-scrollbar-thumb:hover{
+
+background:var(--gold-light);
+
+}
+
+
+/* ==========================
+   PARTICLE BACKGROUND
+========================== */
 
 #particles-js{
 
 position:fixed;
 
-width:100%;
-
-height:100%;
-
-z-index:-10;
-
 top:0;
 
 left:0;
 
+width:100%;
+
+height:100%;
+
+z-index:-5;
+
 }
 
-/* ===========================
-      NAVBAR
-=========================== */
+
+/* ==========================
+   MOUSE GLOW
+========================== */
+
+.mouse-glow{
+
+position:fixed;
+
+width:260px;
+
+height:260px;
+
+background:
+radial-gradient(circle,
+rgba(255,215,0,.12),
+transparent 70%);
+
+pointer-events:none;
+
+transform:translate(-50%,-50%);
+
+z-index:-2;
+
+transition:.05s;
+
+}
+/* ==========================================================
+   NAVIGATION BAR
+========================================================== */
 
 .navbar{
 
-background:rgba(0,0,0,.6);
+background:rgba(8,8,8,.78);
 
-backdrop-filter:blur(15px);
+backdrop-filter:blur(18px);
 
-border-bottom:1px solid rgba(212,175,55,.3);
+border-bottom:1px solid rgba(255,215,0,.18);
 
-padding:18px;
+padding:16px 0;
 
 transition:.4s;
+
+box-shadow:0 5px 30px rgba(0,0,0,.45);
 
 }
 
 .navbar-brand{
 
-font-size:30px;
-
 font-family:'Orbitron',sans-serif;
 
-font-weight:bold;
+font-size:30px;
 
-color:var(--gold)!important;
+font-weight:800;
 
 letter-spacing:2px;
 
+color:var(--gold-light)!important;
+
+text-shadow:0 0 12px rgba(255,215,0,.35);
+
 }
 
-.navbar-brand i{
+.navbar-brand:hover{
 
-margin-right:10px;
+color:white!important;
 
 }
 
 .nav-link{
 
-color:white!important;
+color:#d8d8d8!important;
+
+font-size:16px;
+
+font-weight:500;
 
 margin-left:25px;
 
-font-size:17px;
-
-transition:.3s;
+transition:.35s;
 
 position:relative;
 
@@ -145,7 +214,7 @@ position:relative;
 
 .nav-link:hover{
 
-color:var(--gold)!important;
+color:var(--gold-light)!important;
 
 }
 
@@ -155,15 +224,20 @@ content:"";
 
 position:absolute;
 
-bottom:-6px;
-
 left:0;
+
+bottom:-8px;
 
 width:0%;
 
 height:2px;
 
-background:var(--gold2);
+background:linear-gradient(
+90deg,
+transparent,
+var(--gold-light),
+transparent
+);
 
 transition:.4s;
 
@@ -175,159 +249,92 @@ width:100%;
 
 }
 
-/* Clock */
 
-.clock-box{
+/* ==========================================================
+   CONTAINER
+========================================================== */
 
-text-align:right;
+.container{
 
-font-size:13px;
-
-color:var(--gold);
-
-font-family:'Orbitron';
+max-width:1350px;
 
 }
 
-/* ===========================
-      HERO
-=========================== */
 
-.hero{
-
-min-height:100vh;
-
-display:flex;
-
-align-items:center;
-
-}
-
-.hero-title{
-
-font-size:75px;
-
-font-family:'Orbitron';
-
-font-weight:700;
-
-color:var(--gold2);
-
-margin-bottom:20px;
-
-text-shadow:0 0 20px rgba(255,215,0,.4);
-
-}
-
-#typing{
-
-height:55px;
-
-font-size:28px;
-
-color:white;
-
-margin-bottom:20px;
-
-}
-
-.hero-text{
-
-font-size:18px;
-
-line-height:32px;
-
-color:var(--text2);
-
-max-width:650px;
-
-}
-
-/* ===========================
-      BUTTONS
-=========================== */
-
-.btn-gold{
-
-background:linear-gradient(45deg,#b8860b,#FFD700);
-
-padding:15px 35px;
-
-border-radius:50px;
-
-color:black;
-
-font-weight:bold;
-
-font-size:18px;
-
-transition:.4s;
-
-text-decoration:none;
-
-display:inline-block;
-
-}
-
-.btn-gold:hover{
-
-transform:translateY(-5px);
-
-box-shadow:0 0 30px rgba(255,215,0,.5);
-
-color:black;
-
-}
-
-.btn-outline-light{
-
-border-radius:50px;
-
-padding:15px 35px;
-
-}
-
-/* ===========================
-      GLASS BOX
-=========================== */
+/* ==========================================================
+   GLASS CARD
+========================================================== */
 
 .glass-box{
 
 background:rgba(255,255,255,.03);
 
-border:1px solid rgba(255,215,0,.12);
+backdrop-filter:blur(22px);
 
-backdrop-filter:blur(20px);
+border:1px solid rgba(255,215,0,.15);
 
-border-radius:25px;
+border-radius:22px;
 
-padding:40px;
+padding:28px;
 
-margin-top:60px;
+margin-top:30px;
 
-box-shadow:0 0 40px rgba(255,215,0,.05);
+box-shadow:
+
+0 10px 35px rgba(0,0,0,.45),
+
+0 0 20px rgba(255,215,0,.06);
+
+transition:.35s;
 
 }
 
-/* ===========================
-      STATUS CARDS
-=========================== */
+.glass-box:hover{
+
+transform:translateY(-5px);
+
+box-shadow:
+
+0 15px 40px rgba(0,0,0,.55),
+
+0 0 25px rgba(255,215,0,.18);
+
+}
+
+
+/* ==========================================================
+   STATUS CARD
+========================================================== */
 
 .status-card{
 
-background:#111;
-
-border:1px solid #2d2d2d;
-
-padding:30px;
+background:linear-gradient(
+145deg,
+#16181c,
+#1f2329
+);
 
 border-radius:20px;
 
+padding:35px;
+
 text-align:center;
 
-transition:.4s;
+border:1px solid rgba(255,215,0,.15);
 
-height:180px;
+transition:.35s;
+
+height:190px;
+
+display:flex;
+
+flex-direction:column;
+
+justify-content:center;
+
+box-shadow:
+
+0 0 20px rgba(0,0,0,.45);
 
 }
 
@@ -337,265 +344,322 @@ transform:translateY(-10px);
 
 border-color:var(--gold);
 
-box-shadow:0 0 35px rgba(255,215,0,.2);
+box-shadow:
+
+0 0 30px rgba(255,215,0,.25);
 
 }
 
 .status-card h2{
 
-color:var(--gold2);
-
-font-size:40px;
+font-size:46px;
 
 font-family:'Orbitron';
 
-}
-
-.status-card p{
-
-color:#b8b8b8;
-
-margin-top:15px;
-
-}
-
-/* ===========================
-      FORMAT CARD
-=========================== */
-
-.format-card{
-
-background:#121212;
-
-padding:35px;
-
-text-align:center;
-
-border-radius:18px;
-
-font-size:22px;
-
-font-weight:bold;
-
-border:1px solid #333;
-
-transition:.4s;
-
-}
-
-.format-card:hover{
-
-transform:scale(1.05);
-
-border-color:var(--gold2);
-
-box-shadow:0 0 25px rgba(255,215,0,.2);
-
-}
-
-.disabled{
-
-opacity:.45;
-
-}
-
-/* ===========================
-      TERMINAL
-=========================== */
-
-.terminal{
-
-background:black;
-
-padding:35px;
-
-border-radius:20px;
-
-font-family:'JetBrains Mono';
-
-color:#00ff7f;
-
-border:1px solid rgba(255,215,0,.25);
-
-margin-top:50px;
-
-box-shadow:0 0 20px rgba(255,215,0,.1);
-
-}
-
-.terminal p{
+font-weight:700;
 
 margin-bottom:12px;
 
-}
-
-.blink{
-
-animation:blink .8s infinite;
+color:var(--gold-light);
 
 }
 
-@keyframes blink{
+.status-card h5{
 
-50%{
+font-size:18px;
 
-opacity:0;
+font-weight:600;
 
-}
+color:#d7d7d7;
 
-}
-
-/* ===========================
-      FOOTER
-=========================== */
-
-footer{
-
-margin-top:100px;
-
-padding:40px;
-
-background:#0a0a0a;
-
-text-align:center;
-
-border-top:1px solid rgba(255,215,0,.25);
+letter-spacing:1px;
 
 }
 
-footer h4{
 
-color:var(--gold);
+/* ==========================================================
+   HEADINGS
+========================================================== */
 
-font-family:'Orbitron';
+h1,h2,h3{
 
-}
+font-family:'Orbitron',sans-serif;
 
-footer p{
-
-color:#999;
-
-}
-
-footer small{
-
-color:#666;
-
-}
-/* Mouse Glow */
-
-.mouse-glow{
-
-position:fixed;
-
-width:250px;
-
-height:250px;
-
-background:radial-gradient(circle,
-rgba(255,215,0,.12),
-transparent 70%);
-
-pointer-events:none;
-
-transform:translate(-50%,-50%);
-
-z-index:-1;
-
-transition:.08s;
+letter-spacing:1px;
 
 }
 
-/* Floating Cards */
+.text-warning{
 
-@keyframes floatCard{
-
-0%{
-
-transform:translateY(0px);
+color:var(--gold-light)!important;
 
 }
+/* ==========================================================
+   PREMIUM TABLES
+========================================================== */
 
-50%{
+.table{
 
-transform:translateY(-8px);
-
-}
-
-100%{
-
-transform:translateY(0px);
-
-}
-
-}
-.ai-core{
-
-width:500px;
-
-height:500px;
-
-margin:auto;
-
-position:relative;
-
-}
-
-.ai-core canvas{
-
-width:100%!important;
-
-height:100%!important;
-
-filter:drop-shadow(0 0 40px gold);
-
-}
-.status-card{
-
-background:#141414;
-
-padding:30px;
+margin-top:20px;
 
 border-radius:15px;
 
+overflow:hidden;
+
+color:white;
+
+}
+
+.table thead{
+
+background:linear-gradient(
+90deg,
+#2b2b2b,
+#3d3315
+);
+
+}
+
+.table thead th{
+
+color:var(--gold-light);
+
+font-family:'Orbitron';
+
+font-size:15px;
+
+padding:18px;
+
+border:none;
+
 text-align:center;
 
-border:1px solid gold;
+letter-spacing:1px;
 
-margin-bottom:20px;
+}
+
+.table tbody tr{
+
+background:#181818;
 
 transition:.3s;
 
 }
 
-.status-card:hover{
+.table tbody tr:nth-child(even){
 
-transform:translateY(-10px);
-
-box-shadow:0 0 20px gold;
+background:#1f1f1f;
 
 }
 
-.status-card h2{
+.table tbody tr:hover{
 
-font-size:50px;
+background:#2a2208;
 
-color:gold;
+transform:scale(1.01);
 
 }
 
-.glass-box{
+.table td{
 
-background:rgba(255,255,255,.05);
+padding:16px;
 
-backdrop-filter:blur(15px);
+text-align:center;
 
-padding:30px;
+vertical-align:middle;
+
+border-color:#2f2f2f;
+
+}
+
+
+/* ==========================================================
+   BUTTONS
+========================================================== */
+
+.btn{
+
+border-radius:50px;
+
+padding:13px 28px;
+
+font-weight:600;
+
+transition:.35s;
+
+letter-spacing:.5px;
+
+}
+
+.btn-warning{
+
+background:linear-gradient(
+45deg,
+#b8860b,
+#ffd700
+);
+
+border:none;
+
+color:black;
+
+}
+
+.btn-warning:hover{
+
+transform:translateY(-4px);
+
+box-shadow:0 0 25px rgba(255,215,0,.45);
+
+color:black;
+
+}
+
+.btn-success{
+
+background:linear-gradient(
+45deg,
+#00a86b,
+#00ff99
+);
+
+border:none;
+
+color:black;
+
+}
+
+.btn-success:hover{
+
+transform:translateY(-4px);
+
+box-shadow:0 0 25px rgba(0,255,153,.4);
+
+color:black;
+
+}
+
+
+/* ==========================================================
+   BADGES
+========================================================== */
+
+.badge{
+
+padding:10px 18px;
+
+font-size:14px;
+
+border-radius:30px;
+
+font-weight:700;
+
+letter-spacing:1px;
+
+}
+
+.bg-danger{
+
+box-shadow:0 0 15px rgba(255,0,0,.4);
+
+}
+
+.bg-warning{
+
+box-shadow:0 0 15px rgba(255,215,0,.4);
+
+}
+
+.bg-success{
+
+box-shadow:0 0 15px rgba(0,255,120,.4);
+
+}
+
+
+/* ==========================================================
+   CHART CONTAINERS
+========================================================== */
+
+canvas{
+
+margin-top:25px;
+
+padding:15px;
+
+background:#101010;
 
 border-radius:20px;
 
-border:1px solid rgba(255,215,0,.3);
+border:1px solid rgba(255,215,0,.12);
 
-margin-bottom:30px;
+}
+
+
+/* ==========================================================
+   CLOCK
+========================================================== */
+
+#clock{
+
+font-family:'Orbitron';
+
+font-size:20px;
+
+color:var(--gold-light);
+
+text-shadow:0 0 12px rgba(255,215,0,.35);
+
+margin-bottom:25px;
+
+}
+
+
+/* ==========================================================
+   FILE INFORMATION TABLE
+========================================================== */
+
+.file-info{
+
+background:#111;
+
+border-radius:15px;
+
+padding:20px;
+
+border:1px solid rgba(255,215,0,.15);
+
+}
+
+
+/* ==========================================================
+   THREAT LEVEL ANIMATION
+========================================================== */
+
+@keyframes pulseGlow{
+
+0%{
+
+box-shadow:0 0 5px rgba(255,215,0,.2);
+
+}
+
+50%{
+
+box-shadow:0 0 25px rgba(255,215,0,.6);
+
+}
+
+100%{
+
+box-shadow:0 0 5px rgba(255,215,0,.2);
+
+}
+
+}
+
+.badge{
+
+animation:pulseGlow 2s infinite;
 
 }

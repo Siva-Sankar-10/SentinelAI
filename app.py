@@ -1,33 +1,38 @@
 import os
+import sqlite3
 import joblib
 import pandas as pd
-import sqlite3
+from flask import send_file
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
+from reportlab.lib import colors
 import database
+
 from flask import Flask, render_template, request
 
 app = Flask(__name__)
+app.config["REPORT_DATA"] = {}
 
-# ============================================
+# =====================================================
 # Configuration
-# ============================================
+# =====================================================
 
 UPLOAD_FOLDER = "uploads"
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-# ============================================
-# Load Model & Encoders
-# ============================================
+# =====================================================
+# Load Model
+# =====================================================
 
 model = joblib.load("model.pkl")
 protocol_encoder = joblib.load("protocol_encoder.pkl")
 service_encoder = joblib.load("service_encoder.pkl")
 flag_encoder = joblib.load("flag_encoder.pkl")
 
-# ============================================
-# NSL-KDD Column Names
-# ============================================
+# =====================================================
+# NSL-KDD Columns
+# =====================================================
 
 columns = [
     "duration","protocol_type","service","flag","src_bytes","dst_bytes",
@@ -45,9 +50,9 @@ columns = [
     "label","difficulty"
 ]
 
-# ============================================
+# =====================================================
 # Routes
-# ============================================
+# =====================================================
 
 @app.route("/")
 def home():
@@ -70,28 +75,48 @@ def dashboard():
         "dashboard.html",
         total=0,
         attack=0,
-        normal=0
+        normal=0,
+        accuracy=0
     )
-@app.route("/history")
-def history():
-
     conn = sqlite3.connect("sentinel.db")
 
     cursor = conn.cursor()
 
-    cursor.execute("SELECT * FROM history ORDER BY id DESC")
+    cursor.execute("""
+    SELECT filename,total,attack,normal
+    FROM history
+    ORDER BY id DESC
+    LIMIT 5
+    """)
 
-    data = cursor.fetchall()
+    recent_history = cursor.fetchall()
+
+    conn.close()
+
+
+@app.route("/history")
+def history():
+
+    conn = sqlite3.connect("sentinel.db")
+    cursor = conn.cursor()
+
+    cursor.execute(
+        "SELECT * FROM history ORDER BY id DESC"
+    )
+
+    history = cursor.fetchall()
 
     conn.close()
 
     return render_template(
         "history.html",
-        history=data
+        history=history
     )
-# ============================================
+
+
+# =====================================================
 # Prediction
-# ============================================
+# =====================================================
 
 @app.route("/predict", methods=["POST"])
 def predict():
@@ -112,60 +137,207 @@ def predict():
         )
 
         file.save(filepath)
+        from datetime import datetime
 
-        # Read uploaded NSL-KDD dataset
-        df = pd.read_csv(filepath, names=columns)
+        file_name = file.filename
+        file_type = os.path.splitext(file.filename)[1].upper()
+        file_size = round(os.path.getsize(filepath) / (1024 * 1024), 2)
+        upload_time = datetime.now().strftime("%d-%m-%Y %I:%M:%S %p")
+
+        # Read Dataset
+        df = pd.read_csv(
+            filepath,
+            names=columns
+        )
 
         # Remove unwanted columns
-        df.drop(["label", "difficulty"], axis=1, inplace=True)
+        df.drop(
+            ["label", "difficulty"],
+            axis=1,
+            inplace=True
+        )
 
         # Encode categorical columns
-        df["protocol_type"] = protocol_encoder.transform(df["protocol_type"])
-        df["service"] = service_encoder.transform(df["service"])
-        df["flag"] = flag_encoder.transform(df["flag"])
+        df["protocol_type"] = protocol_encoder.transform(
+            df["protocol_type"]
+        )
+
+        df["service"] = service_encoder.transform(
+            df["service"]
+        )
+
+        df["flag"] = flag_encoder.transform(
+            df["flag"]
+        )
 
         # Prediction
         predictions = model.predict(df)
 
         total = len(predictions)
 
-        attack = sum(predictions == 0)
-        normal = sum(predictions == 1)
+        attack = int(sum(predictions == 0))
+        normal = int(sum(predictions == 1))
 
         accuracy = 99.42
-conn = sqlite3.connect("sentinel.db")
+        # Calculate Threat Level
+        attack_percentage = round((attack / total) * 100, 2)
 
-cursor = conn.cursor()
+        if attack_percentage >= 70:
+            threat = "HIGH"
 
-cursor.execute(
+        elif attack_percentage >= 40:
+            threat = "MEDIUM"
 
-"""
-INSERT INTO history
-(filename,total,attack,normal)
-VALUES(?,?,?,?)
-""",
+        else:
+            threat = "LOW"
+        app.config["REPORT_DATA"] = {
 
-(file.filename,total,attack,normal)
+    "file_name": file_name,
+    "file_type": file_type,
+    "file_size": file_size,
+    "upload_time": upload_time,
+    "total": total,
+    "attack": attack,
+    "normal": normal,
+    "accuracy": accuracy
 
-)
+}
 
-conn.commit()
+        # Save Prediction History
+        conn = sqlite3.connect("sentinel.db")
+        cursor = conn.cursor()
 
-conn.close()
+        cursor.execute(
+            """
+            INSERT INTO history
+            (filename,total,attack,normal)
+            VALUES(?,?,?,?)
+            """,
+            (
+                file.filename,
+                total,
+                attack,
+                normal
+            )
+        )
+
+        conn.commit()
+        conn.close()
+        # Get Last 5 Analysis Records
+
+        conn = sqlite3.connect("sentinel.db")
+
+        cursor = conn.cursor()
+
+        cursor.execute("""
+        SELECT filename, total, attack, normal
+        FROM history
+        ORDER BY id DESC
+        LIMIT 5
+        """)
+
+        recent_history = cursor.fetchall()
+        # Prepare Chart Data
+        chart_labels = []
+        chart_attack = []
+        chart_normal = []
+
+        for row in recent_history:
+            chart_labels.append(row[0])
+            chart_attack.append(row[2])
+            chart_normal.append(row[3])
+
+        conn.close()
+
         return render_template(
             "dashboard.html",
             total=total,
             attack=attack,
             normal=normal,
-            accuracy=accuracy
+            accuracy=accuracy,
+            file_name=file_name,
+            file_type=file_type,
+            file_size=file_size,
+            upload_time=upload_time,
+            recent_history=recent_history,
+            threat=threat,
+            attack_percentage=attack_percentage,
+            chart_labels=chart_labels,
+            chart_attack=chart_attack,
+            chart_normal=chart_normal
         )
+            
+                
 
     except Exception as e:
+
         return f"Error : {e}"
 
-# ============================================
-# Run
-# ============================================
 
+
+# =====================================================
+# Run
+# =====================================================
+@app.route("/download_report")
+def download_report():
+
+    report = app.config.get("REPORT_DATA")
+
+    if not report:
+        return "Please upload and analyze a dataset first."
+
+    os.makedirs("reports", exist_ok=True)
+
+    pdf_path = "reports/SentinelAI_Report.pdf"
+
+    doc = SimpleDocTemplate(pdf_path)
+
+    data = [
+
+        ["SentinelAI Analysis Report",""],
+
+        ["File Name",report["file_name"]],
+
+        ["File Type",report["file_type"]],
+
+        ["File Size",str(report["file_size"])+" MB"],
+
+        ["Upload Time",report["upload_time"]],
+
+        ["Total Records",report["total"]],
+
+        ["Attack Records",report["attack"]],
+
+        ["Normal Records",report["normal"]],
+
+        ["Accuracy",str(report["accuracy"])+"%"],
+
+        ["Model","Random Forest"],
+
+        ["Dataset","NSL-KDD"]
+
+    ]
+
+    table = Table(data)
+
+    table.setStyle(TableStyle([
+
+        ('BACKGROUND',(0,0),(-1,0),colors.gold),
+
+        ('TEXTCOLOR',(0,0),(-1,0),colors.black),
+
+        ('GRID',(0,0),(-1,-1),1,colors.black),
+
+        ('BACKGROUND',(0,1),(-1,-1),colors.beige),
+
+        ('BOTTOMPADDING',(0,0),(-1,0),12),
+
+        ('FONTNAME',(0,0),(-1,0),'Helvetica-Bold')
+
+    ]))
+
+    doc.build([table])
+
+    return send_file(pdf_path, as_attachment=True)
 if __name__ == "__main__":
     app.run(debug=True)

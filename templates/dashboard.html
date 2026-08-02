@@ -6,44 +6,126 @@
 
 <div class="container mt-5 pt-5">
 
-    <h1 class="text-center text-warning mb-5">
-        SentinelAI Analysis Report
+    <!-- ========================= -->
+    <!-- Dashboard Heading -->
+    <!-- ========================= -->
+
+    <h1 class="text-center text-warning mb-3">
+        SentinelAI Analysis Dashboard
     </h1>
+
+    <h5 id="clock" class="text-center text-warning mb-4"></h5>
+
+    <!-- ========================= -->
+    <!-- Statistics Cards -->
+    <!-- ========================= -->
 
     <div class="row">
 
-        <div class="col-md-4">
+        <div class="col-md-4 mb-3">
+
             <div class="status-card">
+
                 <h2>{{ total }}</h2>
+
                 <h5>Total Records</h5>
+
             </div>
+
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-4 mb-3">
+
             <div class="status-card">
-                <h2>{{ attack }}</h2>
+
+                <h2 class="text-danger">
+
+                    {{ attack }}
+
+                </h2>
+
                 <h5>Attack Traffic</h5>
+
             </div>
+
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-4 mb-3">
+
             <div class="status-card">
-                <h2>{{ normal }}</h2>
+
+                <h2 class="text-success">
+
+                    {{ normal }}
+
+                </h2>
+
                 <h5>Normal Traffic</h5>
+
             </div>
+
         </div>
 
     </div>
 
-    <br><br>
+    <!-- ========================= -->
+    <!-- Uploaded File Information -->
+    <!-- ========================= -->
 
-    <div class="glass-box">
+    <div class="glass-box mt-4">
+
+        <h3 class="text-warning">
+
+            Uploaded File Information
+
+        </h3>
+
+        <table class="table table-dark table-bordered">
+
+            <tr>
+
+                <th>File Name</th>
+
+                <td>{{ file_name }}</td>
+
+            </tr>
+
+            <tr>
+
+                <th>File Type</th>
+
+                <td>{{ file_type }}</td>
+
+            </tr>
+
+            <tr>
+
+                <th>File Size</th>
+
+                <td>{{ file_size }} MB</td>
+
+            </tr>
+
+            <tr>
+
+                <th>Uploaded Time</th>
+
+                <td>{{ upload_time }}</td>
+
+            </tr>
+
+        </table>
+
+    </div>
+    <!-- ========================= -->
+    <!-- Detection Summary -->
+    <!-- ========================= -->
+
+    <div class="glass-box mt-4">
 
         <h3 class="text-warning">
             Detection Summary
         </h3>
-
-        <hr>
 
         <table class="table table-dark table-bordered">
 
@@ -72,53 +154,381 @@
                 <td>NSL-KDD</td>
             </tr>
 
+            <tr>
+                <th>Accuracy</th>
+                <td>{{ accuracy }}%</td>
+            </tr>
+
+            <tr>
+                <th>Threat Level</th>
+
+                <td>
+
+                    {% if threat == "HIGH" %}
+
+                        <span class="badge bg-danger">
+                            HIGH RISK
+                        </span>
+
+                    {% elif threat == "MEDIUM" %}
+
+                        <span class="badge bg-warning text-dark">
+                            MEDIUM RISK
+                        </span>
+
+                    {% else %}
+
+                        <span class="badge bg-success">
+                            LOW RISK
+                        </span>
+
+                    {% endif %}
+
+                </td>
+
+            </tr>
+
+            <tr>
+                <th>Attack Percentage</th>
+                <td>{{ attack_percentage }}%</td>
+            </tr>
+
         </table>
 
     </div>
 
-    <br>
+    <!-- ========================= -->
+    <!-- Pie Chart -->
+    <!-- ========================= -->
 
-    <div class="glass-box">
+    <div class="glass-box mt-4">
 
-        <h3 class="text-warning">
-            Detection Chart
+        <h3 class="text-warning text-center">
+
+            Detection Pie Chart
+
         </h3>
 
         <canvas id="resultChart"></canvas>
 
     </div>
 
+    <!-- ========================= -->
+    <!-- Bar Chart -->
+    <!-- ========================= -->
+
+    <div class="glass-box mt-4">
+
+        <h3 class="text-warning text-center">
+
+            Detection Comparison
+
+        </h3>
+
+        <canvas id="barChart"></canvas>
+
+    </div>
+        <!-- ========================= -->
+    <!-- Recent Analysis -->
+    <!-- ========================= -->
+
+    <div class="glass-box mt-4">
+
+        <h3 class="text-warning text-center">
+            Recent Analysis
+        </h3>
+
+        <table class="table table-dark table-striped table-bordered">
+
+            <thead>
+
+                <tr>
+                    <th>File Name</th>
+                    <th>Total</th>
+                    <th>Attack</th>
+                    <th>Normal</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+            {% if recent_history %}
+
+                {% for row in recent_history %}
+
+                <tr>
+
+                    <td>{{ row[0] }}</td>
+                    <td>{{ row[1] }}</td>
+                    <td>{{ row[2] }}</td>
+                    <td>{{ row[3] }}</td>
+
+                </tr>
+
+                {% endfor %}
+
+            {% else %}
+
+                <tr>
+
+                    <td colspan="4" class="text-center">
+
+                        No History Available
+
+                    </td>
+
+                </tr>
+
+            {% endif %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <!-- ========================= -->
+    <!-- History Chart -->
+    <!-- ========================= -->
+
+    <div class="glass-box mt-4">
+
+        <h3 class="text-warning text-center">
+            Previous Analysis Comparison
+        </h3>
+
+        <canvas id="historyChart"></canvas>
+
+    </div>
+
+
+    <!-- ========================= -->
+    <!-- Download Buttons -->
+    <!-- ========================= -->
+
+    <div class="text-center mt-5 mb-5">
+
+        <a href="/download_report"
+           class="btn btn-warning btn-lg">
+
+            📄 Download PDF Report
+
+        </a>
+
+        <a href="/export_history"
+           class="btn btn-success btn-lg ms-3">
+
+            📊 Export CSV
+
+        </a>
+
+    </div>
+
 </div>
+
+<!-- ========================= -->
+<!-- Chart.js -->
+<!-- ========================= -->
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
 
-const ctx=document.getElementById('resultChart');
+// =========================
+// Live Clock
+// =========================
 
-new Chart(ctx,{
+function updateClock(){
 
-type:'pie',
+    const now = new Date();
 
-data:{
-
-labels:['Attack','Normal'],
-
-datasets:[{
-
-data:[{{ attack }},{{ normal }}],
-
-backgroundColor:[
-
-'#ff4444',
-
-'#00cc66'
-
-]
-
-}]
+    document.getElementById("clock").innerHTML =
+    now.toLocaleString();
 
 }
+
+setInterval(updateClock,1000);
+
+updateClock();
+
+
+// =========================
+// Pie Chart
+// =========================
+
+new Chart(document.getElementById("resultChart"),{
+
+    type:"pie",
+
+    data:{
+
+        labels:["Attack","Normal"],
+
+        datasets:[{
+
+            data:[{{ attack }},{{ normal }}],
+
+            backgroundColor:[
+
+                "#dc3545",
+
+                "#198754"
+
+            ]
+
+        }]
+
+    }
+
+});
+
+
+// =========================
+// Bar Chart
+// =========================
+
+new Chart(document.getElementById("barChart"),{
+
+    type:"bar",
+
+    data:{
+
+        labels:["Attack","Normal"],
+
+        datasets:[{
+
+            label:"Traffic",
+
+            data:[{{ attack }},{{ normal }}],
+
+            backgroundColor:[
+
+                "#dc3545",
+
+                "#198754"
+
+            ]
+
+        }]
+
+    },
+
+    options:{
+
+        responsive:true,
+
+        scales:{
+
+            y:{
+
+                beginAtZero:true
+
+            }
+
+        }
+
+    }
+
+});
+
+
+// =========================
+// History Line Chart
+// =========================
+
+new Chart(document.getElementById("historyChart"),{
+
+    type:"line",
+
+    data:{
+
+        labels: {{ chart_labels | tojson }},
+
+        datasets:[
+
+            {
+
+                label:"Attack",
+
+                data: {{ chart_attack | tojson }},
+
+                borderColor:"#dc3545",
+
+                backgroundColor:"rgba(220,53,69,0.15)",
+
+                tension:0.4,
+
+                fill:true
+
+            },
+
+            {
+
+                label:"Normal",
+
+                data: {{ chart_normal | tojson }},
+
+                borderColor:"#198754",
+
+                backgroundColor:"rgba(25,135,84,0.15)",
+
+                tension:0.4,
+
+                fill:true
+
+            }
+
+        ]
+
+    },
+
+    options:{
+
+        responsive:true,
+
+        plugins:{
+
+            legend:{
+
+                labels:{
+
+                    color:"white"
+
+                }
+
+            }
+
+        },
+
+        scales:{
+
+            x:{
+
+                ticks:{
+
+                    color:"white"
+
+                }
+
+            },
+
+            y:{
+
+                beginAtZero:true,
+
+                ticks:{
+
+                    color:"white"
+
+                }
+
+            }
+
+        }
+
+    }
 
 });
 
