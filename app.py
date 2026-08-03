@@ -857,3 +857,24 @@ if __name__ == "__main__":
         threaded=True
 
     )
+    app.config["REPORT_DATA"] = {
+
+    "file_name": file_name,
+
+    "file_type": file_type,
+
+    "file_size": file_size,
+
+    "upload_time": upload_time,
+
+    "total": total,
+
+    "attack": attack,
+
+    "normal": normal,
+
+    "accuracy": accuracy,
+
+    "threat": threat
+
+}  
