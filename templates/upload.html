@@ -174,6 +174,8 @@ const fileName = document.getElementById("fileName");
 
 const fileSize = document.getElementById("fileSize");
 
+if (fileInput) {
+
 fileInput.addEventListener("change", function () {
 
     if(this.files.length > 0){
@@ -208,6 +210,7 @@ fileInput.addEventListener("change", function () {
 
 });
 
+}
 
 // ==========================================
 // DRAG & DROP EFFECT
@@ -215,35 +218,40 @@ fileInput.addEventListener("change", function () {
 
 const dropArea = document.getElementById("dropArea");
 
-dropArea.addEventListener("dragover", function(e){
+if (dropArea) {
 
-    e.preventDefault();
+    dropArea.addEventListener("dragover", function (e) {
 
-    dropArea.style.borderColor = "gold";
+        e.preventDefault();
 
-    dropArea.style.background =
-        "rgba(255,215,0,.08)";
+        dropArea.style.borderColor = "gold";
 
-});
+        dropArea.style.background =
+            "rgba(255,215,0,.08)";
 
-dropArea.addEventListener("dragleave", function(){
+    });
 
-    dropArea.style.borderColor =
-        "rgba(255,215,0,.35)";
+    dropArea.addEventListener("dragleave", function () {
 
-    dropArea.style.background = "";
+        dropArea.style.borderColor =
+            "rgba(255,215,0,.35)";
 
-});
+        dropArea.style.background = "";
 
-dropArea.addEventListener("drop", function(e){
+    });
 
-    e.preventDefault();
+    dropArea.addEventListener("drop", function (e) {
 
-    fileInput.files = e.dataTransfer.files;
+        e.preventDefault();
 
-    fileInput.dispatchEvent(new Event("change"));
+        if (fileInput && e.dataTransfer && e.dataTransfer.files.length) {
+            fileInput.files = e.dataTransfer.files;
+            fileInput.dispatchEvent(new Event("change"));
+        }
 
-});
+    });
+
+}
 
 </script>
 
@@ -282,35 +290,39 @@ dropArea.addEventListener("drop", function(e){
 
 const uploadForm = document.getElementById("uploadForm");
 
-uploadForm.addEventListener("submit", function(e){
+if (uploadForm && fileInput) {
 
-    // Make sure a file is selected
+    uploadForm.addEventListener("submit", function (e) {
 
-    if(fileInput.files.length == 0){
+        // Make sure a file is selected
 
-        alert("Please select a dataset.");
+        if (fileInput.files.length === 0) {
+            alert("Please select a dataset.");
+            e.preventDefault();
+            return;
+        }
 
-        e.preventDefault();
+        // Disable button
 
-        return;
+        const submitBtn = uploadForm.querySelector("button");
 
-    }
+        if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.innerHTML =
+                '<i class="fa-solid fa-spinner fa-spin"></i> Analyzing Dataset...';
+        }
 
-    // Disable button
+        // Show Loading Screen
 
-    const submitBtn = uploadForm.querySelector("button");
+        const loadingScreen = document.getElementById("loadingScreen");
 
-    submitBtn.disabled = true;
+        if (loadingScreen) {
+            loadingScreen.style.display = "flex";
+        }
 
-    submitBtn.innerHTML =
+    });
 
-    '<i class="fa-solid fa-spinner fa-spin"></i> Analyzing Dataset...';
-
-    // Show Loading Screen
-
-    document.getElementById("loadingScreen").style.display="flex";
-
-});
+}
 
 </script>
 

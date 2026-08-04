@@ -75,12 +75,6 @@
         rel="stylesheet"
         href="{{ url_for('static', filename='css/style.css') }}"
     >
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
-    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
 </head>
 
 <body>
@@ -418,15 +412,19 @@
 
 <script>
 
-AOS.init({
+if (window.AOS && typeof window.AOS.init === "function") {
 
-    duration:1000,
+    window.AOS.init({
 
-    once:true,
+        duration:1000,
 
-    easing:"ease-in-out"
+        once:true,
 
-});
+        easing:"ease-in-out"
+
+    });
+
+}
 
 </script>
 
@@ -440,6 +438,8 @@ AOS.init({
 const glow = document.querySelector(".mouse-glow");
 
 document.addEventListener("mousemove",(e)=>{
+
+    if (!glow) return;
 
     glow.style.left = e.clientX + "px";
 
@@ -456,61 +456,65 @@ document.addEventListener("mousemove",(e)=>{
 
 <script>
 
-particlesJS("particles-js",{
+if (window.particlesJS && document.getElementById("particles-js")) {
 
-"particles":{
+    window.particlesJS("particles-js",{
 
-"number":{"value":60},
+        "particles":{
 
-"color":{"value":"#FFD700"},
+            "number":{"value":60},
 
-"shape":{"type":"circle"},
+            "color":{"value":"#FFD700"},
 
-"opacity":{"value":0.35},
+            "shape":{"type":"circle"},
 
-"size":{"value":3},
+            "opacity":{"value":0.35},
 
-"line_linked":{
+            "size":{"value":3},
 
-"enable":true,
+            "line_linked":{
 
-"distance":150,
+                "enable":true,
 
-"color":"#FFD700",
+                "distance":150,
 
-"opacity":0.2,
+                "color":"#FFD700",
 
-"width":1
+                "opacity":0.2,
 
-},
+                "width":1
 
-"move":{
+            },
 
-"enable":true,
+            "move":{
 
-"speed":2
+                "enable":true,
+
+                "speed":2
+
+            }
+
+        },
+
+        "interactivity":{
+
+            "events":{
+
+                "onhover":{
+
+                    "enable":true,
+
+                    "mode":"grab"
+
+                }
+
+            }
+
+        }
+
+    });
 
 }
-
-},
-
-"interactivity":{
-
-"events":{
-
-"onhover":{
-
-"enable":true,
-
-"mode":"grab"
-
-}
-
-}
-
-}
-
-});
 
 </script>
 
@@ -521,7 +525,7 @@ particlesJS("particles-js",{
 
 <script>
 
-if(document.getElementById("typing")){
+if(document.getElementById("typing") && window.Typed){
 
 new Typed("#typing",{
 

@@ -260,6 +260,7 @@ hr{
     box-shadow:0 0 25px rgba(255,215,0,.25);
 
 }
+
 /* ==========================================================
    SECTION 2 / 6
    NAVBAR + HERO + AI CORE
@@ -979,23 +980,6 @@ hr{
 
 
 /* =========================
-        BADGES
-========================= */
-
-.badge{
-
-    padding:8px 18px;
-
-    border-radius:50px;
-
-    font-size:13px;
-
-    letter-spacing:1px;
-
-}
-
-
-/* =========================
        HOVER EFFECT
 ========================= */
 
@@ -1052,58 +1036,6 @@ hr{
 
 
 /* =========================
-        DASHBOARD
-========================= */
-
-.dashboard-title{
-
-    font-family:'Orbitron',sans-serif;
-
-    color:var(--gold-light);
-
-    font-size:48px;
-
-    text-align:center;
-
-    margin-bottom:20px;
-
-    letter-spacing:2px;
-
-}
-
-.dashboard-subtitle{
-
-    color:#bbbbbb;
-
-    text-align:center;
-
-    margin-bottom:40px;
-
-}
-
-
-/* =========================
-          CLOCK
-========================= */
-
-#clock{
-
-    font-family:'JetBrains Mono',monospace;
-
-    color:var(--gold-light);
-
-    text-align:center;
-
-    font-size:18px;
-
-    margin-bottom:30px;
-
-    letter-spacing:2px;
-
-}
-
-
-/* =========================
         TERMINAL
 ========================= */
 
@@ -1156,72 +1088,6 @@ hr{
         opacity:0;
 
     }
-
-}
-
-
-/* =========================
-         TABLES
-========================= */
-
-.table{
-
-    margin-top:20px;
-
-}
-
-.table-dark{
-
-    background:#101010;
-
-    color:white;
-
-}
-
-.table-dark th{
-
-    background:#181818;
-
-    color:gold;
-
-    font-weight:600;
-
-}
-
-.table-dark td{
-
-    vertical-align:middle;
-
-}
-
-.table-hover tbody tr:hover{
-
-    background:rgba(255,215,0,.08);
-
-}
-
-
-/* =========================
-      HISTORY TABLE
-========================= */
-
-.history-table{
-
-    border-radius:15px;
-
-    overflow:hidden;
-
-}
-
-.history-table tbody tr{
-
-    transition:.3s;
-
-}
-
-.history-table tbody tr:hover{
-
-    transform:scale(1.01);
 
 }
 
@@ -1408,33 +1274,6 @@ button:hover,
 }
 
 
-/* =========================
-       THREAT LEVELS
-========================= */
-
-.threat-high{
-
-    color:#ff4444;
-
-    font-weight:bold;
-
-}
-
-.threat-medium{
-
-    color:#ffb300;
-
-    font-weight:bold;
-
-}
-
-.threat-low{
-
-    color:#00d26a;
-
-    font-weight:bold;
-
-}
 /* ==========================================================
    SECTION 5 / 6
    PREMIUM EFFECTS • FOOTER • ANIMATIONS
@@ -1524,23 +1363,6 @@ button:hover,
 .ai-core{
 
     animation:floating 5s ease-in-out infinite;
-
-}
-
-
-/* =========================
-        GOLD GLOW
-========================= */
-
-.glow{
-
-    box-shadow:
-
-    0 0 10px gold,
-
-    0 0 20px gold,
-
-    0 0 40px rgba(255,215,0,.4);
 
 }
 
@@ -2132,6 +1954,16 @@ footer{
 
 }
 
+@media(max-width:575px){
+
+.nav-link{
+
+    margin-left:0;
+
+}
+
+}
+
 
 /* =========================
       LOADING SPINNER
@@ -2168,21 +2000,6 @@ footer{
         transform:rotate(360deg);
 
     }
-
-}
-
-
-/* =========================
-      PREMIUM SHADOWS
-========================= */
-
-.shadow-premium{
-
-    box-shadow:
-
-        0 10px 35px rgba(0,0,0,.45),
-
-        0 0 25px rgba(255,215,0,.15);
 
 }
 

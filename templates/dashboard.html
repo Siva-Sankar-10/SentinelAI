@@ -897,16 +897,20 @@ Dashboard
         CHART JS
 ========================================== -->
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
 <script>
 
-// =====================================
-// PIE CHART
-// =====================================
+window.addEventListener("load", function() {
 
-new Chart(document.getElementById("resultChart"), {
+    if (!window.Chart) {
+        return;
+    }
 
+    // =====================================
+    // PIE CHART
+    // =====================================
+
+    new Chart(document.getElementById("resultChart"), {
+            
     type: "pie",
 
     data: {
@@ -962,11 +966,11 @@ new Chart(document.getElementById("resultChart"), {
 });
 
 
-// =====================================
-// BAR CHART
-// =====================================
+    // =====================================
+    // BAR CHART
+    // =====================================
 
-new Chart(document.getElementById("barChart"), {
+    new Chart(document.getElementById("barChart"), {
 
     type: "bar",
 
@@ -1049,11 +1053,11 @@ new Chart(document.getElementById("barChart"), {
 });
 
 
-// =====================================
-// LINE CHART
-// =====================================
+    // =====================================
+    // LINE CHART
+    // =====================================
 
-new Chart(document.getElementById("historyChart"), {
+    new Chart(document.getElementById("historyChart"), {
 
     type: "line",
 
@@ -1144,6 +1148,8 @@ new Chart(document.getElementById("historyChart"), {
         }
 
     }
+
+    });
 
 });
 

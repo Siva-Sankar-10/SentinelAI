@@ -422,13 +422,15 @@ No Analysis History Available
 
 const historyCtx = document.getElementById("historyChart");
 
+if (historyCtx && window.Chart) {
+
 new Chart(historyCtx,{
 
     type:"line",
 
     data:{
 
-        labels: {{ chart_labels | tojson }},
+        labels: {{ (chart_labels | default([])) | tojson }},
 
         datasets:[
 
@@ -436,7 +438,7 @@ new Chart(historyCtx,{
 
                 label:"Attack",
 
-                data: {{ chart_attack | tojson }},
+                data: {{ (chart_attack | default([])) | tojson }},
 
                 borderColor:"#ff4444",
 
@@ -452,7 +454,7 @@ new Chart(historyCtx,{
 
                 label:"Normal",
 
-                data: {{ chart_normal | tojson }},
+                data: {{ (chart_normal | default([])) | tojson }},
 
                 borderColor:"#00cc66",
 
@@ -516,6 +518,7 @@ new Chart(historyCtx,{
 
 });
 
+}
 
 // ==========================================
 // LIVE SEARCH
@@ -523,33 +526,39 @@ new Chart(historyCtx,{
 
 const searchInput = document.getElementById("searchInput");
 
-searchInput.addEventListener("keyup", function(){
+if (searchInput) {
 
-    let filter = this.value.toUpperCase();
+    searchInput.addEventListener("keyup", function(){
 
-    let table = document.getElementById("historyTable");
+        let filter = this.value.toUpperCase();
 
-    let tr = table.getElementsByTagName("tr");
+        let table = document.getElementById("historyTable");
 
-    for(let i=1;i<tr.length;i++){
+        if (!table) return;
 
-        let td = tr[i].getElementsByTagName("td")[1];
+        let tr = table.getElementsByTagName("tr");
 
-        if(td){
+        for(let i=1;i<tr.length;i++){
 
-            let txt = td.textContent || td.innerText;
+            let td = tr[i].getElementsByTagName("td")[1];
 
-            tr[i].style.display =
+            if(td){
 
-            txt.toUpperCase().indexOf(filter)>-1 ?
+                let txt = td.textContent || td.innerText;
 
-            "" : "none";
+                tr[i].style.display =
+
+                txt.toUpperCase().indexOf(filter)>-1 ?
+
+                "" : "none";
+
+            }
 
         }
 
-    }
+    });
 
-});
+}
 
 </script>
 <!-- ==========================================

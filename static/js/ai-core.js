@@ -1,87 +1,81 @@
-const container = document.querySelector(".ai-core");
+(function () {
 
-if(container){
+    const container = document.querySelector(".ai-core");
 
-const scene = new THREE.Scene();
+    if (!container || typeof window.THREE === "undefined") {
+        return;
+    }
 
-const camera = new THREE.PerspectiveCamera(
-45,
-container.clientWidth/container.clientHeight,
-0.1,
-1000
-);
+    const scene = new window.THREE.Scene();
 
-const renderer = new THREE.WebGLRenderer({
-alpha:true,
-antialias:true
-});
+    const camera = new window.THREE.PerspectiveCamera(
+        45,
+        container.clientWidth / container.clientHeight,
+        0.1,
+        1000
+    );
 
-renderer.setSize(
-container.clientWidth,
-container.clientHeight
-);
+    const renderer = new window.THREE.WebGLRenderer({
+        alpha: true,
+        antialias: true
+    });
 
-container.appendChild(renderer.domElement);
+    renderer.setSize(
+        container.clientWidth,
+        container.clientHeight
+    );
 
-// Sphere
+    container.appendChild(renderer.domElement);
 
-const geometry = new THREE.SphereGeometry(2,64,64);
+    // Sphere
 
-const material = new THREE.MeshBasicMaterial({
+    const geometry = new window.THREE.SphereGeometry(2, 64, 64);
 
-wireframe:true,
+    const material = new window.THREE.MeshBasicMaterial({
+        wireframe: true,
+        color: 0xFFD700
+    });
 
-color:0xFFD700
+    const sphere = new window.THREE.Mesh(
+        geometry,
+        material
+    );
 
-});
+    scene.add(sphere);
 
-const sphere = new THREE.Mesh(
-geometry,
-material
-);
+    // Outer Ring
 
-scene.add(sphere);
+    const ringGeometry = new window.THREE.TorusGeometry(
+        2.8,
+        0.03,
+        16,
+        100
+    );
 
-// Outer Ring
+    const ringMaterial = new window.THREE.MeshBasicMaterial({
+        color: 0xD4AF37
+    });
 
-const ringGeometry = new THREE.TorusGeometry(
-2.8,
-0.03,
-16,
-100
-);
+    const ring = new window.THREE.Mesh(
+        ringGeometry,
+        ringMaterial
+    );
 
-const ringMaterial = new THREE.MeshBasicMaterial({
+    scene.add(ring);
 
-color:0xD4AF37
+    camera.position.z = 6;
 
-});
+    function animate() {
+        requestAnimationFrame(animate);
 
-const ring = new THREE.Mesh(
-ringGeometry,
-ringMaterial
-);
+        sphere.rotation.y += 0.004;
+        sphere.rotation.x += 0.002;
+        ring.rotation.x += 0.01;
+        ring.rotation.y += 0.005;
 
-scene.add(ring);
+        renderer.render(scene, camera);
+    }
 
-camera.position.z=6;
+    animate();
 
-function animate(){
-
-requestAnimationFrame(animate);
-
-sphere.rotation.y+=0.004;
-
-sphere.rotation.x+=0.002;
-
-ring.rotation.x+=0.01;
-
-ring.rotation.y+=0.005;
-
-renderer.render(scene,camera);
-
-}
-
-animate();
-
-}
+})();

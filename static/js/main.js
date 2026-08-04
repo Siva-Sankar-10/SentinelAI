@@ -2,11 +2,14 @@
 // SentinelAI Main JavaScript
 // =========================================
 
-// Initialize AOS
-AOS.init({
-    duration: 1000,
-    once: false
-});
+(function () {
+
+    if (window.AOS && typeof window.AOS.init === "function") {
+        window.AOS.init({
+            duration: 1000,
+            once: false
+        });
+    }
 
 // ==========================
 // Live Clock
@@ -15,19 +18,21 @@ AOS.init({
 function updateClock(){
 
     const now = new Date();
+    const dateEl = document.getElementById("date");
+    const clockEl = document.getElementById("clock");
 
-    const options = {
-        weekday:'long',
-        year:'numeric',
-        month:'long',
-        day:'numeric'
-    };
+    if (dateEl) {
+        dateEl.innerHTML = now.toLocaleDateString('en-IN', {
+            weekday:'long',
+            year:'numeric',
+            month:'long',
+            day:'numeric'
+        });
+    }
 
-    document.getElementById("date").innerHTML =
-        now.toLocaleDateString('en-IN', options);
-
-    document.getElementById("clock").innerHTML =
-        now.toLocaleTimeString('en-IN');
+    if (clockEl) {
+        clockEl.innerHTML = now.toLocaleTimeString('en-IN');
+    }
 
 }
 
@@ -39,29 +44,33 @@ updateClock();
 // Typing Animation
 // ==========================
 
-new Typed("#typing",{
+const typingEl = document.getElementById("typing");
 
-    strings:[
+if (typingEl && window.Typed) {
+    new Typed("#typing",{
 
-        "AI Powered Defense Command Center",
+        strings:[
 
-        "Random Forest Detection Engine",
+            "AI Powered Defense Command Center",
 
-        "Machine Learning Threat Analysis",
+            "Random Forest Detection Engine",
 
-        "Intelligent Network Monitoring"
+            "Machine Learning Threat Analysis",
 
-    ],
+            "Intelligent Network Monitoring"
 
-    typeSpeed:60,
+        ],
 
-    backSpeed:35,
+        typeSpeed:60,
 
-    backDelay:1800,
+        backSpeed:35,
 
-    loop:true
+        backDelay:1800,
 
-});
+        loop:true
+
+    });
+}
 
 // ==========================
 // Animated Counter
@@ -103,9 +112,11 @@ animateValue("accuracy",0,99,2500);
 // Navbar Scroll Effect
 // ==========================
 
+const nav=document.querySelector(".navbar");
+
 window.addEventListener("scroll",function(){
 
-    let nav=document.querySelector(".navbar");
+    if (!nav) return;
 
     if(window.scrollY>50){
 
@@ -129,13 +140,19 @@ window.addEventListener("scroll",function(){
 // Mouse Glow
 // ==========================
 
-const glow=document.createElement("div");
+const existingGlow=document.querySelector(".mouse-glow");
 
-glow.className="mouse-glow";
-
-document.body.appendChild(glow);
+if (!existingGlow && document.body) {
+    const glow=document.createElement("div");
+    glow.className="mouse-glow";
+    document.body.appendChild(glow);
+}
 
 document.addEventListener("mousemove",(e)=>{
+
+    const glow=document.querySelector(".mouse-glow");
+
+    if (!glow) return;
 
     glow.style.left=e.clientX+"px";
 

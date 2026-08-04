@@ -8,6 +8,8 @@
 # IMPORTS
 # ==========================================================
 
+import csv
+import io
 import os
 import sqlite3
 from datetime import datetime
@@ -64,16 +66,27 @@ os.makedirs(REPORT_FOLDER, exist_ok=True)
 # LOAD MACHINE LEARNING MODEL
 # ==========================================================
 
-MODEL_PATH = "model.pkl"
-PROTOCOL_ENCODER_PATH = "protocol_encoder.pkl"
-SERVICE_ENCODER_PATH = "service_encoder.pkl"
-FLAG_ENCODER_PATH = "flag_encoder.pkl"
+MODEL_BUNDLE_PATH = "sentinel_model.pkl"
 
-model = joblib.load(MODEL_PATH)
+trained_bundle = joblib.load(MODEL_BUNDLE_PATH)
 
-protocol_encoder = joblib.load(PROTOCOL_ENCODER_PATH)
-service_encoder = joblib.load(SERVICE_ENCODER_PATH)
-flag_encoder = joblib.load(FLAG_ENCODER_PATH)
+model = trained_bundle["model"]
+protocol_encoder = trained_bundle["protocol_encoder"]
+service_encoder = trained_bundle["service_encoder"]
+flag_encoder = trained_bundle["flag_encoder"]
+feature_names = trained_bundle["feature_names"]
+
+
+def safe_transform(series, encoder):
+
+    values = series.astype(str)
+    known_values = set(encoder.classes_)
+
+    values = values.map(
+        lambda value: value if value in known_values else encoder.classes_[0]
+    )
+
+    return encoder.transform(values)
 
 
 # ==========================================================
@@ -134,35 +147,8 @@ columns = [
 # ==========================================================
 def init_db():
 
-    conn = sqlite3.connect(DATABASE)
+    database.create_database()
 
-    cursor = conn.cursor()
-
-    cursor.execute("""
-    CREATE TABLE IF NOT EXISTS history(
-
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-
-        file_name TEXT,
-
-        total INTEGER,
-
-        attack INTEGER,
-
-        normal INTEGER,
-
-        threat TEXT,
-
-        upload_time TEXT
-
-    )
-    """)
-
-    conn.commit()
-
-    conn.close()
-    
-database.create_database()
 # ==========================================================
 # HOME PAGE
 # ==========================================================
@@ -191,6 +177,33 @@ def upload():
 
 
 # ==========================================================
+# LOGIN PAGE
+# ==========================================================
+
+@app.route("/login")
+def login():
+    return render_template("login.html")
+
+
+# ==========================================================
+# RESULT PAGE
+# ==========================================================
+
+@app.route("/result")
+def result():
+    return render_template("result.html")
+
+
+# ==========================================================
+# LOADING PAGE
+# ==========================================================
+
+@app.route("/loading")
+def loading():
+    return render_template("loading.html")
+
+
+# ==========================================================
 # DASHBOARD
 # ==========================================================
 
@@ -203,7 +216,7 @@ def dashboard():
     cursor = conn.cursor()
 
     cursor.execute("""
-        SELECT file_name,total,attack,normal
+        SELECT file_name, total, attack, normal
         FROM history
         ORDER BY id DESC
         LIMIT 10
@@ -257,7 +270,7 @@ def history():
     cursor = conn.cursor()
 
     cursor.execute("""
-        SELECT *
+        SELECT id, file_name, total, attack, normal, threat, upload_time
         FROM history
         ORDER BY id DESC
     """)
@@ -266,9 +279,21 @@ def history():
 
     conn.close()
 
+    chart_labels = []
+    chart_attack = []
+    chart_normal = []
+
+    for row in reversed(history_data):
+        chart_labels.append(row[1])
+        chart_attack.append(row[3])
+        chart_normal.append(row[4])
+
     return render_template(
         "history.html",
-        history=history_data
+        history=history_data,
+        chart_labels=chart_labels,
+        chart_attack=chart_attack,
+        chart_normal=chart_normal
     )
 # ==========================================================
 # AI PREDICTION
@@ -280,12 +305,19 @@ def predict():
     # -----------------------------
     # Check Upload
     # -----------------------------
-    if "dataset" not in request.files:
+    upload_key = None
+
+    if "dataset" in request.files:
+        upload_key = "dataset"
+    elif "file" in request.files:
+        upload_key = "file"
+
+    if upload_key is None:
 
         flash("Please select a dataset.", "danger")
         return redirect("/upload")
 
-    file = request.files["dataset"]
+    file = request.files[upload_key]
 
     if file.filename == "":
 
@@ -293,11 +325,13 @@ def predict():
         return redirect("/upload")
 
     # -----------------------------
-    # Allow only CSV
+    # Allow CSV or TXT uploads
     # -----------------------------
-    if not file.filename.lower().endswith(".csv"):
+    allowed_extensions = (".csv", ".txt")
 
-        flash("Only CSV files are supported.", "danger")
+    if not file.filename.lower().endswith(allowed_extensions):
+
+        flash("Only CSV or TXT files are supported.", "danger")
         return redirect("/upload")
 
     # -----------------------------
@@ -322,7 +356,7 @@ def predict():
 
     except Exception:
 
-        flash("Unable to read CSV file.", "danger")
+        flash("Unable to read uploaded dataset.", "danger")
         return redirect("/upload")
 
     # -----------------------------
@@ -333,39 +367,48 @@ def predict():
         flash("Dataset is empty.", "danger")
         return redirect("/upload")
 
+    if len(df.columns) < len(columns):
+
+        flash("Dataset shape is incompatible with the IDS schema.", "danger")
+        return redirect("/upload")
+
     # -----------------------------
     # Assign Column Names
     # -----------------------------
     df.columns = columns
 
     # -----------------------------
-    # Remove Label Columns
+    # Keep only trained feature columns
     # -----------------------------
     X = df.drop(
         ["label", "difficulty"],
-        axis=1
+        axis=1,
+        errors="ignore"
     )
+
+    X = X.reindex(columns=feature_names, fill_value=0)
 
     # -----------------------------
     # Encode Categorical Columns
     # -----------------------------
     try:
 
-        X["protocol_type"] = protocol_encoder.transform(
-            X["protocol_type"]
+        X["protocol_type"] = safe_transform(
+            X["protocol_type"], protocol_encoder
         )
 
-        X["service"] = service_encoder.transform(
-            X["service"]
+        X["service"] = safe_transform(
+            X["service"], service_encoder
         )
 
-        X["flag"] = flag_encoder.transform(
-            X["flag"]
+        X["flag"] = safe_transform(
+            X["flag"], flag_encoder
         )
 
     except Exception as e:
         print("ENCODER ERROR:", e)
-        raise
+        flash("The uploaded dataset contains unsupported categorical values.", "danger")
+        return redirect("/upload")
     # ==========================================================
     # RANDOM FOREST PREDICTION
     # ==========================================================
@@ -405,7 +448,7 @@ def predict():
 
     file_name = file.filename
 
-    file_type = "CSV"
+    file_type = "CSV" if filepath.lower().endswith(".csv") else "TXT"
 
     file_size = round(
         os.path.getsize(filepath) / (1024 * 1024),
@@ -447,7 +490,7 @@ def predict():
 
     cursor.execute("""
 
-        INSERT INTO history(
+        INSERT OR IGNORE INTO history(
 
             file_name,
             total,
@@ -484,6 +527,40 @@ def predict():
 # ==========================================================
 # DOWNLOAD PDF REPORT
 # ==========================================================
+
+@app.route("/download_history")
+def download_history():
+
+    conn = sqlite3.connect(DATABASE)
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        SELECT id, file_name, total, attack, normal, threat, upload_time
+        FROM history
+        ORDER BY id DESC
+    """)
+
+    history_rows = cursor.fetchall()
+
+    conn.close()
+
+    output = io.StringIO()
+    writer = csv.writer(output)
+    writer.writerow(["id", "file_name", "total", "attack", "normal", "threat", "upload_time"])
+
+    for row in history_rows:
+        writer.writerow(row)
+
+    csv_bytes = output.getvalue().encode("utf-8")
+    output.close()
+
+    return send_file(
+        io.BytesIO(csv_bytes),
+        mimetype="text/csv",
+        as_attachment=True,
+        download_name="SentinelAI_history.csv"
+    )
+
 
 @app.route("/download_report")
 def download_report():

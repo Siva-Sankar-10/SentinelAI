@@ -1,10 +1,37 @@
 {% extends "base.html" %}
 
+{% block title %}
+
+500
+
+{% endblock %}
+
 {% block content %}
-<div class="container text-center mt-5">
-    <h1>500</h1>
-    <h3>Internal Server Error</h3>
-    <p>Something went wrong while processing your request.</p>
-    <a href="/" class="btn btn-warning">Go Home</a>
-</div>
+
+<section class="container text-center pt-5 mt-5">
+
+    <div class="glass-box mx-auto" style="max-width:640px;">
+
+        <h1 class="display-1 text-warning">500</h1>
+
+        <h3 class="text-light mb-4">Internal Server Error</h3>
+
+        <p class="text-light">
+
+            Something went wrong while processing your request.
+
+        </p>
+
+        <a href="/" class="btn btn-gold">
+
+            <i class="fa-solid fa-house"></i>
+
+            Go Home
+
+        </a>
+
+    </div>
+
+</section>
+
 {% endblock %}

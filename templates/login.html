@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Login
+
+{% endblock %}
+
+{% block content %}
+
+<section class="container pt-5 mt-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-5">
+
+            <div class="glass-box" data-aos="zoom-in">
+
+                <h2 class="text-warning text-center mb-4">
+
+                    <i class="fa-solid fa-right-to-bracket"></i>
+
+                    SentinelAI Login
+
+                </h2>
+
+                <form action="/dashboard" method="GET">
+
+                    <div class="mb-3">
+
+                        <label class="form-label text-light">Email</label>
+
+                        <input
+                            type="email"
+                            class="form-control"
+                            placeholder="admin@sentinelai.local"
+                            required>
+
+                    </div>
+
+                    <div class="mb-4">
+
+                        <label class="form-label text-light">Password</label>
+
+                        <input
+                            type="password"
+                            class="form-control"
+                            placeholder="••••••••"
+                            required>
+
+                    </div>
+
+                    <div class="d-grid gap-2">
+
+                        <button type="submit" class="btn btn-gold">
+
+                            <i class="fa-solid fa-sign-in-alt"></i>
+
+                            Login
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}
