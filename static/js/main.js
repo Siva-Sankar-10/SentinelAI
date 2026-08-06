@@ -1,7 +1,6 @@
 // =========================================
 // SentinelAI Main JavaScript
 // =========================================
-
 (function () {
 
     if (window.AOS && typeof window.AOS.init === "function") {
@@ -307,3 +306,5 @@ particlesJS("particles-js",{
 }
 
 });
+
+})();

@@ -88,59 +88,67 @@ Upload Dataset
     </div>
 
 
-    <!-- File Information -->
+<!-- AI Information Cards -->
 
-    <div class="glass-box mt-4">
+<div class="row mt-5">
 
-        <h4>
+    <div class="col-md-3 col-6 mb-4">
 
-            <i class="fa-solid fa-file-circle-check"></i>
+        <div class="info-card">
 
-            Selected File
+            <i class="fa-solid fa-brain"></i>
 
-        </h4>
+            <h3>99.2%</h3>
 
-        <table class="table table-dark table-bordered mt-3">
+            <p>Accuracy</p>
 
-            <tr>
-
-                <th>File Name</th>
-
-                <td id="fileName">
-
-                    No file selected
-
-                </td>
-
-            </tr>
-
-            <tr>
-
-                <th>File Size</th>
-
-                <td id="fileSize">
-
-                    --
-
-                </td>
-
-            </tr>
-
-            <tr>
-
-                <th>Supported Types</th>
-
-                <td>
-
-                    CSV (.csv), TXT (.txt)
-
-                </td>
-
-            </tr>
-
-        </table>
+        </div>
 
     </div>
+
+    <div class="col-md-3 col-6 mb-4">
+
+        <div class="info-card">
+
+            <i class="fa-solid fa-database"></i>
+
+            <h3>NSL-KDD</h3>
+
+            <p>Dataset</p>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-3 col-6 mb-4">
+
+        <div class="info-card">
+
+            <i class="fa-solid fa-clock"></i>
+
+            <h3>&lt;2 Sec</h3>
+
+            <p>Prediction</p>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-3 col-6 mb-4">
+
+        <div class="info-card">
+
+            <i class="fa-solid fa-shield-halved"></i>
+
+            <h3>Random Forest</h3>
+
+            <p>AI Model</p>
+
+        </div>
+
+    </div>
+
+</div>
 
 
     <!-- Upload Button -->
@@ -162,98 +170,7 @@ Upload Dataset
     </div>
 
 </form>
-<script>
 
-// ==========================================
-// FILE PREVIEW
-// ==========================================
-
-const fileInput = document.getElementById("fileInput");
-
-const fileName = document.getElementById("fileName");
-
-const fileSize = document.getElementById("fileSize");
-
-if (fileInput) {
-
-fileInput.addEventListener("change", function () {
-
-    if(this.files.length > 0){
-
-        const file = this.files[0];
-
-        fileName.innerHTML = file.name;
-
-        fileSize.innerHTML =
-            (file.size / (1024 * 1024)).toFixed(2) + " MB";
-
-        // Allowed Extensions
-
-        const allowed = ["csv","txt"];
-
-        const extension =
-            file.name.split(".").pop().toLowerCase();
-
-        if(!allowed.includes(extension)){
-
-            alert("❌ Only CSV and TXT files are allowed.");
-
-            this.value = "";
-
-            fileName.innerHTML = "No file selected";
-
-            fileSize.innerHTML = "--";
-
-        }
-
-    }
-
-});
-
-}
-
-// ==========================================
-// DRAG & DROP EFFECT
-// ==========================================
-
-const dropArea = document.getElementById("dropArea");
-
-if (dropArea) {
-
-    dropArea.addEventListener("dragover", function (e) {
-
-        e.preventDefault();
-
-        dropArea.style.borderColor = "gold";
-
-        dropArea.style.background =
-            "rgba(255,215,0,.08)";
-
-    });
-
-    dropArea.addEventListener("dragleave", function () {
-
-        dropArea.style.borderColor =
-            "rgba(255,215,0,.35)";
-
-        dropArea.style.background = "";
-
-    });
-
-    dropArea.addEventListener("drop", function (e) {
-
-        e.preventDefault();
-
-        if (fileInput && e.dataTransfer && e.dataTransfer.files.length) {
-            fileInput.files = e.dataTransfer.files;
-            fileInput.dispatchEvent(new Event("change"));
-        }
-
-    });
-
-}
-
-</script>
 
 <!-- ==========================================
      LOADING OVERLAY
@@ -282,49 +199,7 @@ if (dropArea) {
 </div>
 
 
-<script>
 
-// ==========================================
-// FORM SUBMIT
-// ==========================================
-
-const uploadForm = document.getElementById("uploadForm");
-
-if (uploadForm && fileInput) {
-
-    uploadForm.addEventListener("submit", function (e) {
-
-        // Make sure a file is selected
-
-        if (fileInput.files.length === 0) {
-            alert("Please select a dataset.");
-            e.preventDefault();
-            return;
-        }
-
-        // Disable button
-
-        const submitBtn = uploadForm.querySelector("button");
-
-        if (submitBtn) {
-            submitBtn.disabled = true;
-            submitBtn.innerHTML =
-                '<i class="fa-solid fa-spinner fa-spin"></i> Analyzing Dataset...';
-        }
-
-        // Show Loading Screen
-
-        const loadingScreen = document.getElementById("loadingScreen");
-
-        if (loadingScreen) {
-            loadingScreen.style.display = "flex";
-        }
-
-    });
-
-}
-
-</script>
 
 
 <style>
